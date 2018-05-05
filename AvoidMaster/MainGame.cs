@@ -1,18 +1,27 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AvoidMaster.States;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Windows.Forms;
 
 namespace AvoidMaster
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class MainGame : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Form MyGameForm;
 
-        public Game1()
+        private State currentState;
+        private State nextState;
+        public void ChangeState(State state)
+        {
+            nextState = state;
+        }
+        public MainGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -27,8 +36,16 @@ namespace AvoidMaster
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            
             base.Initialize();
+            this.IsMouseVisible = true;
+
+            MyGameForm = (Form)Form.FromHandle(Window.Handle);
+            MyGameForm.FormBorderStyle = FormBorderStyle.SizableToolWindow;
+            Window.Position = new Point((graphics.GraphicsDevice.DisplayMode.Width - Window.ClientBounds.Width) / 2
+                , (graphics.GraphicsDevice.DisplayMode.Height-Window.ClientBounds.Height)/2); // xPos and yPos (pixel)
+
+
         }
 
         /// <summary>
@@ -39,8 +56,7 @@ namespace AvoidMaster
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            currentState = new MenuState(this, graphics, Content);
         }
 
         /// <summary>
@@ -59,11 +75,13 @@ namespace AvoidMaster
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
-
+            if (nextState != null)
+            {
+                currentState = nextState;
+                nextState = null;
+            }
+            currentState.Update(gameTime);
+            currentState.PostUpdate(gameTime);
             base.Update(gameTime);
         }
 
@@ -74,7 +92,7 @@ namespace AvoidMaster
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            currentState.Draw(gameTime, spriteBatch);
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
