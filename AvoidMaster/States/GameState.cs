@@ -1,4 +1,5 @@
 ﻿using AvoidMaster.Components;
+using AvoidMaster.Sprite;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,8 +16,12 @@ namespace AvoidMaster.States
     {
         private List<Component> components;
         private Background background;
+        private Car blueCar;
+        private Car redCar;
+        private GameObjects gameObjects;
         public GameState(MainGame game, GraphicsDeviceManager graphics, ContentManager content) : base(game, graphics, content)
         {
+            //Background init
             Texture2D backgroundTexture;
             using (var stream = TitleContainer.OpenStream("Content/GameBackGround.png"))
             {
@@ -27,16 +32,35 @@ namespace AvoidMaster.States
             graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
             graphics.PreferredBackBufferWidth = backgroundTexture.Width;
             graphics.ApplyChanges();
-
             background = new Background(backgroundTexture,GameBoundaries);
 
+            //Blue car init
+            using (var stream = TitleContainer.OpenStream("Content/BlueCar.png"))
+            {
+                var blueCarTexture= Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                var location = new Vector2(blueCarTexture.Width-5,
+                    GameBoundaries.Height-20-blueCarTexture.Height);
+                blueCar = new Car(Car.CarTypes.BlueCar,blueCarTexture, location, GameBoundaries);
+            }
 
+            //Red car init
+            using (var stream = TitleContainer.OpenStream("Content/RedCar.png"))
+            {
+                var redCarTexture= Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                var location = new Vector2(GameBoundaries.Width/2+redCarTexture.Width-5,
+                    GameBoundaries.Height - 20-redCarTexture.Height);
+                redCar= new Car(Car.CarTypes.RedCar,redCarTexture, location, GameBoundaries);
+            }
+            //Init game objects
+            gameObjects = new GameObjects(blueCar, redCar);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             background.Draw(gameTime, spriteBatch);
+            blueCar.Draw(spriteBatch);
+            redCar.Draw(spriteBatch);
             spriteBatch.End();
         }
 
@@ -46,6 +70,8 @@ namespace AvoidMaster.States
 
         public override void Update(GameTime gameTime)
         {
+            blueCar.Update(gameTime,gameObjects);
+            redCar.Update(gameTime, gameObjects);
         }
     }
 }

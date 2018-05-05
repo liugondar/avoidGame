@@ -44,9 +44,13 @@
     <Compile Include="Components\Background.cs" />
     <Compile Include="Components\Button.cs" />
     <Compile Include="Components\Component.cs" />
+    <Compile Include="GameObjects.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sprite\Car.cs" />
+    <Compile Include="Sprite\Obstacle.cs" />
+    <Compile Include="Sprite\Sprite.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MenuState.cs" />
     <Compile Include="States\SaveGameState.cs" />
