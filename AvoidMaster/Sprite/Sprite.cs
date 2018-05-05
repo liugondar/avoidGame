@@ -13,8 +13,8 @@ namespace AvoidMaster.Sprite
         public Texture2D Texture { get; set; }
         public int Width => Texture.Width / Columns;
         public int Height => Texture.Height / Columns;
-        public Rectangle BoundingBox => new Rectangle((int)Location.X, (int)Location.Y, Width, Height);
-        public Vector2 Location { get; set; }
+        public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
+        public Vector2 Position { get; set; }
         public Rectangle GameBoundaries { get; }
 
         private double timeSinceLastFrame;
@@ -28,13 +28,12 @@ namespace AvoidMaster.Sprite
 
         public Sprite(Texture2D texture, Vector2 location, Rectangle gameBoundaries) : this(texture, location, gameBoundaries, 1, 1, 1)
         {
-
         }
         public Sprite(Texture2D texture, Vector2 location, Rectangle gameBoundaries,
             int rows, int columns, double framesPerSecond)
         {
             this.Texture = texture;
-            this.Location = location;
+            this.Position = location;
             GameBoundaries = gameBoundaries;
             Rows = rows;
             Columns = columns;
@@ -54,13 +53,13 @@ namespace AvoidMaster.Sprite
             var sourceRectangle = new Rectangle(imageWidth * currentColumn,
                 imageHeight * currentRow, imageWidth, imageHeight);
 
-            var destinationRectangle = new Rectangle((int)Location.X,
-                (int)Location.Y, imageWidth, imageHeight);
+            var destinationRectangle = new Rectangle((int)Position.X,
+                (int)Position.Y, imageWidth, imageHeight);
             if (!isHaveAnimation)
             {
                 sourceRectangle = new Rectangle(imageWidth * 0, imageHeight * 0, imageWidth, imageHeight);
-                destinationRectangle = new Rectangle((int)Location.X,
-                (int)Location.Y, imageWidth, imageHeight);
+                destinationRectangle = new Rectangle((int)Position.X,
+                (int)Position.Y, imageWidth, imageHeight);
                 spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
             }
             else
@@ -69,7 +68,7 @@ namespace AvoidMaster.Sprite
         public virtual void Update(GameTime gameTime,GameObjects gameObjects)
         {
             UpdateAnimation(gameTime);
-            Location += Velocity;
+            Position += Velocity;
             CheckBounds();
         }
 

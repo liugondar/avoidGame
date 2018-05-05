@@ -34,15 +34,15 @@ namespace AvoidMaster.Sprite
             float xLocation;
             if (CarType == CarTypes.BlueCar)
             {
-                xLocation = MathHelper.Clamp(Location.X,
+                xLocation = MathHelper.Clamp(Position.X,
                     0 + Width - 5, (GameBoundaries.Width*(1.5f /4))-Width/2);
-                Location = new Vector2(xLocation, Location.Y);
+                Position = new Vector2(xLocation, Position.Y);
             }
             else
             {
-                xLocation = MathHelper.Clamp(Location.X,
+                xLocation = MathHelper.Clamp(Position.X,
                     GameBoundaries.Width / 2 + Width - 5, (GameBoundaries.Width * (3.5f / 4))-Width/2 );
-                Location = new Vector2(xLocation, Location.Y);
+                Position = new Vector2(xLocation, Position.Y);
             }
 
         }

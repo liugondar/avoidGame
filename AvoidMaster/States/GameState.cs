@@ -19,6 +19,7 @@ namespace AvoidMaster.States
         private Car blueCar;
         private Car redCar;
         private GameObjects gameObjects;
+        private ObstacleMangager obstacleMangager;
         public GameState(MainGame game, GraphicsDeviceManager graphics, ContentManager content) : base(game, graphics, content)
         {
             //Background init
@@ -53,6 +54,7 @@ namespace AvoidMaster.States
             }
             //Init game objects
             gameObjects = new GameObjects(blueCar, redCar);
+            obstacleMangager = new ObstacleMangager(GameBoundaries, graphics.GraphicsDevice, gameObjects);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -61,6 +63,7 @@ namespace AvoidMaster.States
             background.Draw(gameTime, spriteBatch);
             blueCar.Draw(spriteBatch);
             redCar.Draw(spriteBatch);
+            obstacleMangager.Draw(spriteBatch);
             spriteBatch.End();
         }
 
@@ -72,6 +75,7 @@ namespace AvoidMaster.States
         {
             blueCar.Update(gameTime,gameObjects);
             redCar.Update(gameTime, gameObjects);
+            obstacleMangager.Update(gameTime);
         }
     }
 }
