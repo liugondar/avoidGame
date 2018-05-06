@@ -13,17 +13,15 @@ namespace AvoidMaster.Sprite
         private Random random = new Random();
         public List<Obstacle> obstacles = new List<Obstacle>();
         public Rectangle GameBoundaries { get; }
-        public GameObjects GameObjects { get; }
         private double timeSinceLastObastacle;
-        public double SpeedCreateObstacle { get; set; }
+        public float SpeedCreateObstacle { get; set; }
 
         private GraphicsDevice graphicsDevice;
-        public ObstacleMangager(Rectangle gameBoundaries, GraphicsDevice graphicsDevice, GameObjects gameObjects)
+        public ObstacleMangager(Rectangle gameBoundaries, GraphicsDevice graphicsDevice)
         {
             GameBoundaries = gameBoundaries;
             this.graphicsDevice = graphicsDevice;
-            GameObjects = gameObjects;
-            SpeedCreateObstacle = 0.5;
+            SpeedCreateObstacle = 0.5f;
             CreateEnemy();
         }
 
@@ -79,10 +77,10 @@ namespace AvoidMaster.Sprite
 
         private Vector2 RandomPosition(int obstacleType)
         {
-            var Width = GameObjects.BlueCar.Width;
+            var Width = 50;
             var firstRoadPositionX = 0 + Width - 5;
             var secondRoadPositionX = (GameBoundaries.Width * (1.5f / 4)) - Width / 2;
-            var thirdRoadPositionX = GameBoundaries.Width*(2f / 4) + Width/2 - 5;
+            var thirdRoadPositionX = GameBoundaries.Width*(2f / 4) + Width -5;
             var fourthRoadPositionX = (GameBoundaries.Width * (3.5f / 4)) - Width / 2;
 
 
@@ -108,11 +106,11 @@ namespace AvoidMaster.Sprite
             foreach (var obstacle in obstacles)
                 obstacle.Draw(spriteBatch);
         }
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime,GameObjects gameObjects)
         {
             UpdateMoreObstacle(gameTime);
             foreach (var obstacle in obstacles)
-                obstacle.Update(gameTime, GameObjects);
+                obstacle.Update(gameTime, gameObjects);
         }
 
         private void UpdateMoreObstacle(GameTime gameTime)
