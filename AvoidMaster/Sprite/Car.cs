@@ -20,13 +20,13 @@ namespace AvoidMaster.Sprite
         public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries) : base(texture, location, gameBoundaries)
         {
             CarType = carType;
-            Speed = 0.75f;
+            Speed = 7.5f;
         }
 
         public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries, int rows, int columns, double framesPerSecond) : base(texture, location, gameBoundaries, rows, columns, framesPerSecond)
         {
             CarType = carType;
-            Speed = 0.75f;
+            Speed = 7.5f;
         }
 
 
