@@ -1,4 +1,5 @@
-﻿using AvoidMaster.Components;
+﻿using AvoidMaster.Bus;
+using AvoidMaster.Components;
 using AvoidMaster.Sprite;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -20,6 +21,7 @@ namespace AvoidMaster.States
         private Car redCar;
         private GameObjects gameObjects;
         private ObstacleMangager obstacleMangager;
+        private Score score;
         public GameState(MainGame game, GraphicsDeviceManager graphics, ContentManager content) : base(game, graphics, content)
         {
             //Background init
@@ -53,8 +55,10 @@ namespace AvoidMaster.States
                 redCar= new Car(Car.CarTypes.RedCar,redCarTexture, location, GameBoundaries);
             }
             //Init game objects
+            score = new Score(content.Load<SpriteFont>("ScoreFont"), GameBoundaries);
             obstacleMangager = new ObstacleMangager(GameBoundaries, graphics.GraphicsDevice );
-            gameObjects = new GameObjects(blueCar, redCar,obstacleMangager);
+            gameObjects = new GameObjects(blueCar, redCar,obstacleMangager,score);
+            //Score init
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -64,6 +68,7 @@ namespace AvoidMaster.States
             blueCar.Draw(spriteBatch);
             redCar.Draw(spriteBatch);
             obstacleMangager.Draw(spriteBatch);
+            score.Draw(spriteBatch);
             spriteBatch.End();
         }
 
@@ -77,6 +82,7 @@ namespace AvoidMaster.States
             redCar.Update(gameTime, gameObjects);
             obstacleMangager.Update(gameTime,gameObjects);
             gameObjects.Update(gameTime);
+            score.Update(gameTime, gameObjects);
         }
     }
 }

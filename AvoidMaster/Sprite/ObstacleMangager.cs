@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AvoidMaster.Bus;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -127,6 +128,7 @@ namespace AvoidMaster.Sprite
         }
         public void Update(GameTime gameTime,GameObjects gameObjects)
         {
+            if (gameObjects.IsLose||!gameObjects.IsPlaying) return;
             UpdateMoreObstacle(gameTime);
             foreach (var obstacle in obstacles)
                 obstacle.Update(gameTime, gameObjects);
