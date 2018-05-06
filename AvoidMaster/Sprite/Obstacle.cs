@@ -15,7 +15,7 @@ namespace AvoidMaster.Sprite
         {
             BlueCircle,
             BlueRectangle,
-            RedCirle,
+            RedCircle,
             RedRectangle
         }
         public Obstacle(ObstacleTypes obstacleType ,Texture2D texture, Vector2 location, Rectangle gameBoundaries) : base(texture, location, gameBoundaries)

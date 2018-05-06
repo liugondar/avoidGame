@@ -52,10 +52,10 @@ namespace AvoidMaster.Sprite
                     textureObstacle, position, GameBoundaries);
             }
 
-            if (obstacleType == (int)Obstacle.ObstacleTypes.RedCirle)
+            if (obstacleType == (int)Obstacle.ObstacleTypes.RedCircle)
             {
                 textureObstacle = InitTexture("RedCircle");
-                return new Obstacle(Obstacle.ObstacleTypes.RedCirle,
+                return new Obstacle(Obstacle.ObstacleTypes.RedCircle,
                     textureObstacle, position, GameBoundaries);
             }
 

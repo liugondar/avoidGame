@@ -15,7 +15,7 @@ namespace AvoidMaster
             BlueCar = blueCar;
             RedCar = redCar;
             ObstacleMangager = obstacleMangager;
-            CollisionsManager = new CollisionsManager(this);
+            CollisionsManager = new CollisionsManager(this,blueCar.GameBoundaries);
         }
 
         public Car BlueCar { get; set; }
