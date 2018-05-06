@@ -16,6 +16,8 @@ namespace AvoidMaster.Sprite
         public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
         public Vector2 Position { get; set; }
         public Rectangle GameBoundaries { get; }
+        public float Speed { get; set; }
+
 
         private double timeSinceLastFrame;
         private int currentFrame;

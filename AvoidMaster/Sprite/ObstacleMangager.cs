@@ -15,6 +15,7 @@ namespace AvoidMaster.Sprite
         public Rectangle GameBoundaries { get; }
         public GameObjects GameObjects { get; }
         private double timeSinceLastObastacle;
+        public float SpeedCreateObstacle { get; set; }
 
         private GraphicsDevice graphicsDevice;
         public ObstacleMangager(Rectangle gameBoundaries, GraphicsDevice graphicsDevice, GameObjects gameObjects)
@@ -22,6 +23,7 @@ namespace AvoidMaster.Sprite
             GameBoundaries = gameBoundaries;
             this.graphicsDevice = graphicsDevice;
             GameObjects = gameObjects;
+            SpeedCreateObstacle = 0.5f;
             CreateEnemy();
         }
 
@@ -126,7 +128,7 @@ namespace AvoidMaster.Sprite
 
         private double SecondsBetweenTwoObastacle()
         {
-            return 0.5;
+            return SpeedCreateObstacle;
         }
     }
 }

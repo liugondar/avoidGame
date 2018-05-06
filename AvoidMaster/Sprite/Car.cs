@@ -20,11 +20,13 @@ namespace AvoidMaster.Sprite
         public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries) : base(texture, location, gameBoundaries)
         {
             CarType = carType;
+            Speed = 0.75f;
         }
 
         public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries, int rows, int columns, double framesPerSecond) : base(texture, location, gameBoundaries, rows, columns, framesPerSecond)
         {
             CarType = carType;
+            Speed = 0.75f;
         }
 
 
@@ -51,16 +53,16 @@ namespace AvoidMaster.Sprite
             if (CarType == CarTypes.BlueCar)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
-                    Velocity = new Vector2(-7.5f, 0);
+                    Velocity = new Vector2(-Speed, 0);
                 if (Keyboard.GetState().IsKeyDown(Keys.D))
-                    Velocity = new Vector2(7.5f, 0);
+                    Velocity = new Vector2(Speed, 0);
             }
             else
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                    Velocity = new Vector2(-7.5f, 0);
+                    Velocity = new Vector2(-Speed, 0);
                 if (Keyboard.GetState().IsKeyDown(Keys.Right))
-                    Velocity = new Vector2(7.5f, 0);
+                    Velocity = new Vector2(Speed, 0);
             }
 
             base.Update(gameTime, gameObjects);
