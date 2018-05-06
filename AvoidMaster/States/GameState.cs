@@ -76,6 +76,7 @@ namespace AvoidMaster.States
             blueCar.Update(gameTime,gameObjects);
             redCar.Update(gameTime, gameObjects);
             obstacleMangager.Update(gameTime,gameObjects);
+            gameObjects.Update(gameTime);
         }
     }
 }

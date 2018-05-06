@@ -13,7 +13,7 @@ namespace AvoidMaster.Sprite
         public ObstacleTypes ObstacleType { get; }
         public enum ObstacleTypes
         {
-            BlueCirle,
+            BlueCircle,
             BlueRectangle,
             RedCirle,
             RedRectangle

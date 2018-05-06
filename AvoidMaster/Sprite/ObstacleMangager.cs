@@ -21,7 +21,7 @@ namespace AvoidMaster.Sprite
         {
             GameBoundaries = gameBoundaries;
             this.graphicsDevice = graphicsDevice;
-            SpeedCreateObstacle = 0.5f;
+            SpeedCreateObstacle = 1f;
             CreateEnemy();
         }
 
@@ -38,16 +38,35 @@ namespace AvoidMaster.Sprite
         {
             Texture2D textureObstacle = null;
 
-            if (obstacleType == (int)Obstacle.ObstacleTypes.BlueCirle)
+            if (obstacleType == (int)Obstacle.ObstacleTypes.BlueCircle)
+            {
                 textureObstacle = InitTexture("BlueCircle");
-            if (obstacleType == (int)Obstacle.ObstacleTypes.BlueRectangle)
-                textureObstacle = InitTexture("BlueRectangle");
-            if (obstacleType == (int)Obstacle.ObstacleTypes.RedCirle)
-                textureObstacle = InitTexture("RedCircle");
-            if (obstacleType == (int)Obstacle.ObstacleTypes.RedRectangle)
-                textureObstacle = InitTexture("RedRectangle");
+                return new Obstacle(Obstacle.ObstacleTypes.BlueCircle,
+                    textureObstacle, position, GameBoundaries);
+            }
 
-            return new Obstacle(Obstacle.ObstacleTypes.BlueCirle,
+            if (obstacleType == (int)Obstacle.ObstacleTypes.BlueRectangle)
+            {
+                textureObstacle = InitTexture("BlueRectangle");
+                return new Obstacle(Obstacle.ObstacleTypes.BlueRectangle,
+                    textureObstacle, position, GameBoundaries);
+            }
+
+            if (obstacleType == (int)Obstacle.ObstacleTypes.RedCirle)
+            {
+                textureObstacle = InitTexture("RedCircle");
+                return new Obstacle(Obstacle.ObstacleTypes.RedCirle,
+                    textureObstacle, position, GameBoundaries);
+            }
+
+            if (obstacleType == (int)Obstacle.ObstacleTypes.RedRectangle)
+            {
+                textureObstacle = InitTexture("RedRectangle");
+                return new Obstacle(Obstacle.ObstacleTypes.RedRectangle,
+                    textureObstacle, position, GameBoundaries);
+            }
+
+            return new Obstacle(Obstacle.ObstacleTypes.BlueCircle,
                     textureObstacle, position, GameBoundaries);
         }
 
@@ -86,7 +105,7 @@ namespace AvoidMaster.Sprite
 
             Vector2 finalRandomPosition = new Vector2();
             var result = random.Next(1,3);
-            if (obstacleType == (int)Obstacle.ObstacleTypes.BlueCirle ||
+            if (obstacleType == (int)Obstacle.ObstacleTypes.BlueCircle ||
                 obstacleType == (int)Obstacle.ObstacleTypes.BlueRectangle
                 )
             {
