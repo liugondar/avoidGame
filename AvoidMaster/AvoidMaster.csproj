@@ -42,7 +42,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bus\CollisionsManager.cs" />
-    <Compile Include="Bus\Score.cs" />
+    <Compile Include="Bus\ScoreDisplay.cs" />
+    <Compile Include="Bus\ScoreManager.cs" />
+    <Compile Include="Models\Score.cs" />
     <Compile Include="Components\Background.cs" />
     <Compile Include="Components\Button.cs" />
     <Compile Include="Components\Component.cs" />

@@ -1,4 +1,5 @@
-﻿using AvoidMaster.Sprite;
+﻿using AvoidMaster.Models;
+using AvoidMaster.Sprite;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,23 +10,22 @@ using System.Threading.Tasks;
 
 namespace AvoidMaster.Bus
 {
-
-    public class Score
+    public class ScoreDisplay
     {
-        public Score(SpriteFont font, Rectangle gameBoundaries)
+        public ScoreDisplay(SpriteFont font, Rectangle gameBoundaries)
         {
             Font = font;
             GameBoundaries = gameBoundaries;
-            PlayerScore = 0;
+            Score = new Score();
         }
 
-        public int PlayerScore { get; set; }
         public SpriteFont Font { get; set; }
         public Rectangle GameBoundaries { get; set; }
+        public Score Score { get; set; }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var scoreText = string.Format("Score: {0}", PlayerScore);
+            var scoreText = string.Format("Score: {0}", Score.Value);
             var xPosition = GameBoundaries.Width - 20 - (Font.MeasureString(scoreText).X);
             var yPosition = 10;
             var position = new Vector2(xPosition, yPosition);
@@ -70,6 +70,8 @@ namespace AvoidMaster.Bus
                     //TODO: add action when miss circle
                     gameObjects.IsLose = true;
                     gameObjects.IsPlaying = false;
+                    gameObjects.ScoreManager.Add(gameObjects.ScoreDisplay.Score);
+                    ScoreManager.Save(gameObjects.ScoreManager);
                 }
             }
         }
@@ -88,10 +90,12 @@ namespace AvoidMaster.Bus
                     //TODO: add action when miss circle
                     gameObjects.IsLose = true;
                     gameObjects.IsPlaying = false;
+
+                    gameObjects.ScoreManager.Add(gameObjects.ScoreDisplay.Score);
+                    ScoreManager.Save(gameObjects.ScoreManager);
                 }
             }
 
         }
-
     }
 }

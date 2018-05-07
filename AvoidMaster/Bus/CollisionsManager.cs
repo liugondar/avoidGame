@@ -24,10 +24,6 @@ namespace AvoidMaster.Bus
             CheckCollisions();
         }
 
-
-
-
-
         private void CheckCollisions()
         {
             CheckRectangleImpactBlueCar();
@@ -35,7 +31,6 @@ namespace AvoidMaster.Bus
             CheckCircleImpactBlueCar();
             CheckCircleImpactRedCar();
         }
-
 
         private void CheckCircleImpactRedCar()
         {
@@ -47,7 +42,7 @@ namespace AvoidMaster.Bus
                 if (isIntersects)
                 {
                     GameObjects.ObstacleMangager.obstacles.Remove(item);
-                GameObjects.Score.PlayerScore++;
+                    GameObjects.ScoreDisplay.Score.Value++;
                 }
 
             }
@@ -63,7 +58,7 @@ namespace AvoidMaster.Bus
                 if (isIntersects)
                 {
                     GameObjects.ObstacleMangager.obstacles.Remove(item);
-                    GameObjects.Score.PlayerScore++;
+                    GameObjects.ScoreDisplay.Score.Value++;
                 }
 
             }
@@ -81,6 +76,9 @@ namespace AvoidMaster.Bus
                     GameObjects.ObstacleMangager.obstacles.Remove(item);
                     GameObjects.IsLose = true;
                     GameObjects.IsPlaying = false;
+
+                    GameObjects.ScoreManager.Add(GameObjects.ScoreDisplay.Score);
+                    ScoreManager.Save(GameObjects.ScoreManager);
                 }
                 //TODO: Minus score score & make anitmation collision
 
@@ -100,6 +98,8 @@ namespace AvoidMaster.Bus
                     //TODO: Minus score and make animation collision
                     GameObjects.IsLose = true;
                     GameObjects.IsPlaying = false;
+                    GameObjects.ScoreManager.Add(GameObjects.ScoreDisplay.Score);
+                    ScoreManager.Save(GameObjects.ScoreManager);
                 }
             }
         }
