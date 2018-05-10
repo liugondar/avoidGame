@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Bus\CarSmokeManager.cs" />
     <Compile Include="Bus\CollisionsManager.cs" />
     <Compile Include="Bus\ScoreDisplay.cs" />
     <Compile Include="Bus\ScoreManager.cs" />
@@ -53,10 +54,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sprite\Car.cs" />
-    <Compile Include="Sprite\CarManager.cs" />
+    <Compile Include="Bus\CarManager.cs" />
     <Compile Include="Sprite\CarSmoke.cs" />
     <Compile Include="Sprite\Obstacle.cs" />
-    <Compile Include="Sprite\ObstacleMangager.cs" />
+    <Compile Include="Bus\ObstacleMangager.cs" />
     <Compile Include="Sprite\Sprite.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MenuState.cs" />
@@ -81,6 +82,9 @@
     <Content Include="Content\BlueRectangle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\BlueSmoke.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Button.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -97,6 +101,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\RedRectangle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\RedSmoke.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />

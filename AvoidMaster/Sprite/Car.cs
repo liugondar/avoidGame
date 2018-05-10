@@ -46,9 +46,16 @@ namespace AvoidMaster.Sprite
                     0, (GameBoundaries.Width * (1.5f / 4)) - Width / 2);
                 Position = new Vector2(xLocation, Position.Y);
                 if (Position.X == 0)
+                {
                     IsMovingLeft = false;
-                if (Position.X == (GameBoundaries.Width * (1.5f / 4)) - Width / 2)
                     IsMovingRight = false;
+                }
+
+                if (Position.X == (GameBoundaries.Width * (1.5f / 4)) - Width / 2)
+                {
+                    IsMovingLeft = false;
+                    IsMovingRight = false;
+                }
             }
             else
             {
@@ -56,8 +63,17 @@ namespace AvoidMaster.Sprite
                     GameBoundaries.Width / 2, (GameBoundaries.Width * (3.5f / 4)) - Width / 2);
                 Position = new Vector2(xLocation, Position.Y);
 
-                if (Position.X == GameBoundaries.Width / 2) IsMovingLeft = false;
-                if (Position.X == (GameBoundaries.Width * (3.5f / 4)) - Width / 2) IsMovingRight = false;
+                if (Position.X == GameBoundaries.Width / 2)
+                {
+                    IsMovingLeft = false;
+                    IsMovingRight = false;
+                }
+
+                if (Position.X == (GameBoundaries.Width * (3.5f / 4)) - Width / 2)
+                {
+                    IsMovingRight = false;
+                    IsMovingLeft = false;
+                }
             }
 
         }
@@ -68,6 +84,7 @@ namespace AvoidMaster.Sprite
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
                     Velocity = new Vector2(-Speed, 0);
+                    
                     IsMovingLeft = true;
                 }
 

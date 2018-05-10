@@ -4,20 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AvoidMaster.Bus;
+using AvoidMaster.Sprite;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AvoidMaster.Sprite
+namespace AvoidMaster.Bus
 {
     public class ObstacleMangager
     {
         private Random random = new Random();
         public List<Obstacle> obstacles = new List<Obstacle>();
         public Rectangle GameBoundaries { get; }
-        private double timeSinceLastObastacle;
+        private double timeSinceLastObstacle;
         public float SpeedCreateObstacle { get; set; }
 
         private GraphicsDevice graphicsDevice;
+
         public ObstacleMangager(Rectangle gameBoundaries, GraphicsDevice graphicsDevice)
         {
             GameBoundaries = gameBoundaries;
@@ -41,28 +43,28 @@ namespace AvoidMaster.Sprite
 
             if (obstacleType == (int)ObstacleTypes.BlueCircle)
             {
-                textureObstacle = InitTexture("BlueCircle");
+                textureObstacle = InitTexture("BlueCircle.png");
                 return new Obstacle((int)ObstacleTypes.BlueCircle,
                     textureObstacle, position, GameBoundaries);
             }
 
             if (obstacleType == (int)ObstacleTypes.BlueRectangle)
             {
-                textureObstacle = InitTexture("BlueRectangle");
+                textureObstacle = InitTexture("BlueRectangle.png");
                 return new Obstacle((int)ObstacleTypes.BlueRectangle,
                     textureObstacle, position, GameBoundaries);
             }
 
             if (obstacleType == (int)ObstacleTypes.RedCircle)
             {
-                textureObstacle = InitTexture("RedCircle");
+                textureObstacle = InitTexture("RedCircle.png");
                 return new Obstacle((int)ObstacleTypes.RedCircle,
                     textureObstacle, position, GameBoundaries);
             }
 
             if (obstacleType == (int)ObstacleTypes.RedRectangle)
             {
-                textureObstacle = InitTexture("RedRectangle");
+                textureObstacle = InitTexture("RedRectangle.png");
                 return new Obstacle((int)ObstacleTypes.RedRectangle,
                     textureObstacle, position, GameBoundaries);
             }
@@ -74,7 +76,7 @@ namespace AvoidMaster.Sprite
         private Texture2D InitTexture(string textureName)
         {
             Texture2D textureObstacle = null;
-            using (var stream = TitleContainer.OpenStream("Content/" + textureName + ".png"))
+            using (var stream = TitleContainer.OpenStream("Content/" + textureName))
             {
                 textureObstacle = Texture2D.FromStream(this.graphicsDevice, stream);
             }
@@ -83,7 +85,7 @@ namespace AvoidMaster.Sprite
 
         private int RandomObstacleType()
         {
-            int result=random.Next(0,1001);
+            int result = random.Next(0, 1001);
             if (result <= 250)
                 return 0;
             if (result <= 500)
@@ -100,12 +102,12 @@ namespace AvoidMaster.Sprite
             var Width = 50;
             var firstRoadPositionX = 0 + Width - 5;
             var secondRoadPositionX = (GameBoundaries.Width * (1.5f / 4)) - Width / 2;
-            var thirdRoadPositionX = GameBoundaries.Width*(2f / 4) + Width -5;
+            var thirdRoadPositionX = GameBoundaries.Width * (2f / 4) + Width - 5;
             var fourthRoadPositionX = (GameBoundaries.Width * (3.5f / 4)) - Width / 2;
 
 
             Vector2 finalRandomPosition = new Vector2();
-            var result = random.Next(1,3);
+            var result = random.Next(1, 3);
             if (obstacleType == (int)ObstacleTypes.BlueCircle ||
                 obstacleType == (int)ObstacleTypes.BlueRectangle
                 )
@@ -126,9 +128,9 @@ namespace AvoidMaster.Sprite
             foreach (var obstacle in obstacles)
                 obstacle.Draw(spriteBatch);
         }
-        public void Update(GameTime gameTime,GameObjects gameObjects)
+        public void Update(GameTime gameTime, GameObjects gameObjects)
         {
-            if (gameObjects.IsLose||!gameObjects.IsPlaying) return;
+            if (gameObjects.IsLose || !gameObjects.IsPlaying) return;
             UpdateMoreObstacle(gameTime);
             foreach (var obstacle in obstacles)
                 obstacle.Update(gameTime, gameObjects);
@@ -136,18 +138,19 @@ namespace AvoidMaster.Sprite
 
         private void UpdateMoreObstacle(GameTime gameTime)
         {
-            timeSinceLastObastacle+= gameTime.ElapsedGameTime.TotalSeconds;
+            timeSinceLastObstacle += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (timeSinceLastObastacle> SecondsBetweenTwoObastacle())
+            if (timeSinceLastObstacle > SecondsBetweenTwoObstacle())
             {
                 CreateEnemy();
-                timeSinceLastObastacle= 0;
+                timeSinceLastObstacle = 0;
             }
         }
 
-        private double SecondsBetweenTwoObastacle()
+        private double SecondsBetweenTwoObstacle()
         {
             return SpeedCreateObstacle;
         }
+
     }
 }

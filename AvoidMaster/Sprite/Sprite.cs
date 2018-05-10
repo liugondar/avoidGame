@@ -13,7 +13,7 @@ namespace AvoidMaster.Sprite
     {
         public Texture2D Texture { get; set; }
         public int Width => Texture.Width / Columns;
-        public int Height => Texture.Height / Columns;
+        public int Height => Texture.Height / Rows;
         public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
         public Vector2 Position { get; set; }
         public Rectangle GameBoundaries { get; }
@@ -68,7 +68,7 @@ namespace AvoidMaster.Sprite
             else
                 spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
         }
-        public virtual void Update(GameTime gameTime,GameObjects gameObjects)
+        public virtual void Update(GameTime gameTime, GameObjects gameObjects)
         {
             UpdateAnimation(gameTime);
             Position += Velocity;
