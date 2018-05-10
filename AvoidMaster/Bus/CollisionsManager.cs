@@ -35,7 +35,7 @@ namespace AvoidMaster.Bus
         private void CheckCircleImpactRedCar()
         {
             var listsRedCircle = GameObjects.ObstacleMangager.obstacles.Where(
-                obstacle => obstacle.ObstacleType == Obstacle.ObstacleTypes.RedCircle).ToList();
+                obstacle => obstacle.ObstacleType == (int)ObstacleTypes.RedCircle).ToList();
             foreach (var item in listsRedCircle)
             {
                 bool isIntersects = item.BoundingBox.Intersects(GameObjects.RedCar.BoundingBox);
@@ -51,7 +51,7 @@ namespace AvoidMaster.Bus
         private void CheckCircleImpactBlueCar()
         {
             var listsBlueCircle = GameObjects.ObstacleMangager.obstacles.Where(
-                obstacle => obstacle.ObstacleType == Obstacle.ObstacleTypes.BlueCircle).ToList();
+                obstacle => obstacle.ObstacleType ==(int) ObstacleTypes.BlueCircle).ToList();
             foreach (var item in listsBlueCircle)
             {
                 bool isIntersects = item.BoundingBox.Intersects(GameObjects.BlueCar.BoundingBox);
@@ -67,7 +67,7 @@ namespace AvoidMaster.Bus
         private void CheckRectangleImpactRedCar()
         {
             var listsRedRectangle = GameObjects.ObstacleMangager.obstacles.Where(
-               obstacle => obstacle.ObstacleType == Obstacle.ObstacleTypes.RedRectangle).ToList();
+               obstacle => obstacle.ObstacleType ==(int) ObstacleTypes.RedRectangle).ToList();
             foreach (var item in listsRedRectangle)
             {
                 bool isIntersects = item.BoundingBox.Intersects(GameObjects.RedCar.BoundingBox);
@@ -88,7 +88,7 @@ namespace AvoidMaster.Bus
         private void CheckRectangleImpactBlueCar()
         {
             var listsBlueRectangle = GameObjects.ObstacleMangager.obstacles.Where(
-                obstacle => obstacle.ObstacleType == Obstacle.ObstacleTypes.BlueRectangle).ToList();
+                obstacle => obstacle.ObstacleType ==(int) ObstacleTypes.BlueRectangle).ToList();
             foreach (var item in listsBlueRectangle)
             {
                 bool isIntersects = item.BoundingBox.Intersects(GameObjects.BlueCar.BoundingBox);

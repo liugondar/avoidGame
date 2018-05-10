@@ -47,8 +47,8 @@ namespace AvoidMaster.Bus
         private void CheckRectangleOutOfBottom(GameObjects gameObjects)
         {
             var listRectangle = gameObjects.ObstacleMangager.obstacles.Where(
-                obstacle => obstacle.ObstacleType == Obstacle.ObstacleTypes.BlueRectangle ||
-                obstacle.ObstacleType == Obstacle.ObstacleTypes.RedRectangle).ToList();
+                obstacle => obstacle.ObstacleType == (int)ObstacleTypes.BlueRectangle ||
+                obstacle.ObstacleType == (int)ObstacleTypes.RedRectangle).ToList();
 
             foreach (var item in listRectangle)
             {
@@ -60,7 +60,7 @@ namespace AvoidMaster.Bus
         {
             var listCircle = gameObjects.ObstacleMangager.obstacles.Where(
                obstacle => obstacle.ObstacleType ==
-               Obstacle.ObstacleTypes.RedCircle).ToList();
+               (int)ObstacleTypes.RedCircle).ToList();
 
             foreach (var item in listCircle)
             {
@@ -80,7 +80,7 @@ namespace AvoidMaster.Bus
         {
             var listCircle = gameObjects.ObstacleMangager.obstacles.Where(
                     obstacle => obstacle.ObstacleType ==
-                    Obstacle.ObstacleTypes.BlueCircle).ToList();
+                    (int)ObstacleTypes.BlueCircle).ToList();
 
             foreach (var item in listCircle)
             {
