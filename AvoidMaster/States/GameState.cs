@@ -44,8 +44,9 @@ namespace AvoidMaster.States
             {
                 var blueCarTexture= Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var location = new Vector2(blueCarTexture.Width-5,
-                    GameBoundaries.Height-20-blueCarTexture.Height);
-                blueCar = new Car(Car.CarTypes.BlueCar,blueCarTexture, location, GameBoundaries);
+                    GameBoundaries.Height-blueCarTexture.Height);
+                blueCar = new Car(Car.CarTypes.BlueCar,blueCarTexture, location, GameBoundaries,2,13,13);
+                blueCar.isHaveAnimation=true;
             }
 
             //Red car init
@@ -53,8 +54,9 @@ namespace AvoidMaster.States
             {
                 var redCarTexture= Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var location = new Vector2(GameBoundaries.Width/2+redCarTexture.Width-5,
-                    GameBoundaries.Height - 20-redCarTexture.Height);
-                redCar= new Car(Car.CarTypes.RedCar,redCarTexture, location, GameBoundaries);
+                    GameBoundaries.Height -redCarTexture.Height);
+                redCar= new Car(Car.CarTypes.RedCar,redCarTexture, location, GameBoundaries,2,13,13);
+                redCar.isHaveAnimation = true;
             }
             //Init game objects
             scoreDisplay = new ScoreDisplay(content.Load<SpriteFont>("ScoreFont"), GameBoundaries);

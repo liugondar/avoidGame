@@ -20,9 +20,9 @@ namespace AvoidMaster.Sprite
         public float Speed { get; set; }
 
 
-        private double timeSinceLastFrame;
-        private int currentFrame;
-        protected bool isHaveAnimation;
+        protected double timeSinceLastFrame;
+        protected int currentFrame;
+        public bool isHaveAnimation;
         public int Rows { get; }
         public int Columns { get; }
         public double FramesPerSecond { get; }
@@ -45,7 +45,7 @@ namespace AvoidMaster.Sprite
             timeSinceLastFrame = 0;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             var imageWidth = Texture.Width / Columns;
             var imageHeight = Texture.Height / Rows;
