@@ -25,7 +25,7 @@ namespace AvoidMaster.Bus
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var scoreText = string.Format("Score: {0}", Score.Value);
+            var scoreText = Score.Value.ToString();
             var xPosition = GameBoundaries.Width - 20 - (Font.MeasureString(scoreText).X);
             var yPosition = 10;
             var position = new Vector2(xPosition, yPosition);

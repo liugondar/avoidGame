@@ -18,8 +18,6 @@ namespace AvoidMaster.Sprite
         public Vector2 Position { get; set; }
         public Rectangle GameBoundaries { get; }
         public float Speed { get; set; }
-
-
         protected double timeSinceLastFrame;
         protected int currentFrame;
         public bool isHaveAnimation;
@@ -27,6 +25,7 @@ namespace AvoidMaster.Sprite
         public int Columns { get; }
         public double FramesPerSecond { get; }
         public int TotalFrames { get; private set; }
+
         public Vector2 Velocity { get; set; }
 
         public Sprite(Texture2D texture, Vector2 location, Rectangle gameBoundaries) : this(texture, location, gameBoundaries, 1, 1, 1)
@@ -67,6 +66,7 @@ namespace AvoidMaster.Sprite
             }
             else
                 spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+
         }
         public virtual void Update(GameTime gameTime, GameObjects gameObjects)
         {

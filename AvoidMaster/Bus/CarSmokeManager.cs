@@ -82,7 +82,9 @@ namespace AvoidMaster.Bus
             if (gameObjects.IsLose || !gameObjects.IsPlaying) return;
             UpdateMoreObstacle(gameTime, gameObjects);
             foreach (var smoke in CarSmokes)
+            {
                 smoke.Update(gameTime, gameObjects);
+            }
         }
 
         private void UpdateMoreObstacle(GameTime gameTime, GameObjects gameObjects)

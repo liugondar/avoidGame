@@ -16,7 +16,6 @@ namespace AvoidMaster.States
         private Background background;
         public MenuState(MainGame game, GraphicsDeviceManager graphics, ContentManager content) : base(game, graphics, content)
         {
-
             Button newGameButton;
             using (var stream = TitleContainer.OpenStream("Content/Button.png"))
             {
@@ -30,17 +29,17 @@ namespace AvoidMaster.States
                 newGameButton.Click += NewgameButton_Click;
             }
 
-            Button loadGameButton;
+            Button hightScoreButton;
             using (var stream = TitleContainer.OpenStream("Content/Button.png"))
             {
                 var buttonFont = content.Load<SpriteFont>("Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
-                loadGameButton = new Button(buttonTexture, buttonFont)
+                hightScoreButton = new Button(buttonTexture, buttonFont)
                 {
                     Position = new Vector2(300, 250),
-                    Text = "Load Game"
+                    Text = "Hight Score"
                 };
-                loadGameButton.Click += LoadgameButton_Click;
+                hightScoreButton.Click += HightScoreButton_Click;
             }
 
             Button quitGameButton;
@@ -56,17 +55,25 @@ namespace AvoidMaster.States
                 quitGameButton.Click += QuitgameButton_Click;
             }
 
+            Texture2D backgroundTexture;
             using (var stream = TitleContainer.OpenStream("Content/MenuBackground.png"))
             {
-                var backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var rectangle = new Rectangle(game.Window.Position.X, game.Window.Position.Y, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
-                background = new Background(backgroundTexture, rectangle);
+                background = new Background(backgroundTexture, rectangle, 3, 5, 15);
+                background.isHaveAnimation = true;
             }
+            game.Window.Position = new Point((graphics.GraphicsDevice.DisplayMode.Width - game.Window.ClientBounds.Width) / 2
+               , (graphics.GraphicsDevice.DisplayMode.Height - game.Window.ClientBounds.Height) / 2); // xPos and yPos (pixel)
+
+            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
+            graphics.PreferredBackBufferWidth = background.Width;
+            graphics.ApplyChanges();
 
             // load component
             components = new List<Component>()
             {
-                newGameButton,loadGameButton,quitGameButton
+                newGameButton,hightScoreButton,quitGameButton
             };
         }
 
@@ -80,9 +87,9 @@ namespace AvoidMaster.States
             game.ChangeState(new GameState(game, this.graphics, content));
         }
 
-        private void LoadgameButton_Click(object sender, EventArgs e)
+        private void HightScoreButton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Load Game");
+            game.ChangeState(new HightScoreState(game, this.graphics, content));
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -103,6 +110,7 @@ namespace AvoidMaster.States
         {
             foreach (var component in components)
                 component.Update(gameTime);
+            background.Update(gameTime);
         }
     }
 }

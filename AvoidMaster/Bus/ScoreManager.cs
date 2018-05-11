@@ -29,7 +29,7 @@ namespace AvoidMaster.Bus
         public void Add(Score score)
         {
             Scores.Add(score);
-            Scores.OrderByDescending(c => c.Value).ToList();
+            Scores=Scores.OrderByDescending(c => c.Value).ToList();
 
             UpdateHighScores();
         }

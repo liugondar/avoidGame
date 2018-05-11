@@ -34,10 +34,7 @@ namespace AvoidMaster.States
                 backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
             }
 
-            game.Window.Position = new Point(game.Window.ClientBounds.Width / 2, 0); // xPos and yPos (pixel)
-            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
-            graphics.PreferredBackBufferWidth = backgroundTexture.Width;
-            graphics.ApplyChanges();
+;
             background = new Background(backgroundTexture, GameBoundaries);
 
             //Blue car init
