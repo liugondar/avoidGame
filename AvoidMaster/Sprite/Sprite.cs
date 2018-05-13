@@ -44,7 +44,7 @@ namespace AvoidMaster.Sprite
             timeSinceLastFrame = 0;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var imageWidth = Texture.Width / Columns;
             var imageHeight = Texture.Height / Rows;
@@ -70,9 +70,12 @@ namespace AvoidMaster.Sprite
         }
         public virtual void Update(GameTime gameTime, GameObjects gameObjects)
         {
-            UpdateAnimation(gameTime);
-            Position += Velocity;
-            CheckBounds();
+            if (gameObjects.IsPlaying)
+            {
+                UpdateAnimation(gameTime);
+                Position += Velocity;
+                CheckBounds();
+            }
         }
 
         private void UpdateAnimation(GameTime gameTime)

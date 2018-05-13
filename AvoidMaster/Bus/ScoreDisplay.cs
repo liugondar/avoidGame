@@ -34,6 +34,7 @@ namespace AvoidMaster.Bus
         }
         public void Update(GameTime gameTime, GameObjects gameObjects)
         {
+            if(gameObjects.IsPlaying)
             CheckBounds(gameObjects);
         }
 

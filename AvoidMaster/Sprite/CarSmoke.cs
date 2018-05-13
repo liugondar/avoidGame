@@ -33,5 +33,11 @@ namespace AvoidMaster.Sprite
         public override void CheckBounds()
         {
         }
+        public override void Update(GameTime gameTime, GameObjects gameObjects)
+        {
+            if (!gameObjects.IsPlaying || gameObjects.IsLose) return;
+            if (Position.Y > GameBoundaries.Height) gameObjects.CarSmokeManager.CarSmokes.Remove(this);
+            base.Update(gameTime, gameObjects);
+        }
     }
 }

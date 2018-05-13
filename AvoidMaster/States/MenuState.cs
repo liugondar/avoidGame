@@ -14,67 +14,69 @@ namespace AvoidMaster.States
     {
         private List<Component> components;
         private Background background;
+        private Button newGameButton;
+        private Button hightScoreButton;
+        private Button quitGameButton;
+
         public MenuState(MainGame game, GraphicsDeviceManager graphics, ContentManager content) : base(game, graphics, content)
         {
-            Button newGameButton;
-            using (var stream = TitleContainer.OpenStream("Content/Button.png"))
+            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/StartGame.png"))
             {
-                var buttonFont = content.Load<SpriteFont>("Font");
+                var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                var xPosition = 500 / 2 - buttonTexture.Width / 2;
+                var yPosition = 889 / 2 - buttonTexture.Height * 2;
                 newGameButton = new Button(buttonTexture, buttonFont)
                 {
-                    Position = new Vector2(300, 200),
-                    Text = "New Game"
+                    Position = new Vector2(xPosition, yPosition),
                 };
                 newGameButton.Click += NewgameButton_Click;
             }
 
-            Button hightScoreButton;
-            using (var stream = TitleContainer.OpenStream("Content/Button.png"))
+            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/RankButton.png"))
             {
-                var buttonFont = content.Load<SpriteFont>("Font");
+                var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                var xPosition = newGameButton.Position.X;
+                var yPosition = newGameButton.Position.Y + 100 + newGameButton.Width;
                 hightScoreButton = new Button(buttonTexture, buttonFont)
                 {
-                    Position = new Vector2(300, 250),
-                    Text = "Hight Score"
+                    Position = new Vector2(xPosition, yPosition),
                 };
                 hightScoreButton.Click += HightScoreButton_Click;
             }
 
-            Button quitGameButton;
-            using (var stream = TitleContainer.OpenStream("Content/Button.png"))
+            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/QuitButton.png"))
             {
-                var buttonFont = content.Load<SpriteFont>("Font");
+                var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                var xPosition = hightScoreButton.Position.X + hightScoreButton.Width + 30;
+                var yPosition = hightScoreButton.Position.Y;
                 quitGameButton = new Button(buttonTexture, buttonFont)
                 {
-                    Position = new Vector2(300, 300),
-                    Text = "Quit Game"
+                    Position = new Vector2(xPosition, yPosition),
                 };
                 quitGameButton.Click += QuitgameButton_Click;
             }
 
             Texture2D backgroundTexture;
-            using (var stream = TitleContainer.OpenStream("Content/MenuBackground.png"))
+            using (var stream = TitleContainer.OpenStream(@"Content/Backgrounds/MenuBackground.png"))
             {
                 backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var rectangle = new Rectangle(game.Window.Position.X, game.Window.Position.Y, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
                 background = new Background(backgroundTexture, rectangle, 3, 5, 15);
                 background.isHaveAnimation = true;
             }
-            game.Window.Position = new Point((graphics.GraphicsDevice.DisplayMode.Width - game.Window.ClientBounds.Width) / 2
-               , (graphics.GraphicsDevice.DisplayMode.Height - game.Window.ClientBounds.Height) / 2); // xPos and yPos (pixel)
-
-            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
-            graphics.PreferredBackBufferWidth = background.Width;
-            graphics.ApplyChanges();
 
             // load component
             components = new List<Component>()
             {
                 newGameButton,hightScoreButton,quitGameButton
             };
+
+            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
+            graphics.PreferredBackBufferWidth = 500;
+            graphics.ApplyChanges();
         }
 
         private void QuitgameButton_Click(object sender, EventArgs e)
@@ -84,7 +86,7 @@ namespace AvoidMaster.States
 
         private void NewgameButton_Click(object sender, EventArgs e)
         {
-            game.ChangeState(new GameState(game, this.graphics, content));
+            game.ChangeState(new TitleState(game, this.graphics, content));
         }
 
         private void HightScoreButton_Click(object sender, EventArgs e)
@@ -94,11 +96,9 @@ namespace AvoidMaster.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             background.Draw(gameTime, spriteBatch);
             foreach (var component in components)
                 component.Draw(gameTime, spriteBatch);
-            spriteBatch.End();
         }
 
         public override void PostUpdate(GameTime gameTime)

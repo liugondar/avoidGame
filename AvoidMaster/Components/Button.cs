@@ -20,8 +20,10 @@ namespace AvoidMaster.Components
         #endregion
 
         #region Properties
-        public event EventHandler Click;
         public Color PenColor { get; set; }
+        public float Width => texture.Width;
+        public float Height => texture.Height;
+        public event EventHandler Click;
         public Vector2 Position { get; set; }
         public Rectangle Rectangle => new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height);
         public string Text { get; set; }
@@ -34,6 +36,7 @@ namespace AvoidMaster.Components
             this.font = spriteFont;
             PenColor = Color.Black;
         }
+
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var _color = Color.White;
@@ -48,7 +51,7 @@ namespace AvoidMaster.Components
             if (!string.IsNullOrWhiteSpace(Text))
             {
                 var x = (Rectangle.X + (Rectangle.Width / 2)) - (font.MeasureString(Text).X / 2);
-                var y = (Rectangle.Y + (Rectangle.Height / 2)) - (font.MeasureString(Text).Y / 2)+5;
+                var y = (Rectangle.Y + (Rectangle.Height / 2)) - (font.MeasureString(Text).Y / 2) + 5;
 
                 spriteBatch.DrawString(font, Text, new Vector2(x, y), PenColor);
             }
@@ -72,6 +75,7 @@ namespace AvoidMaster.Components
                     Click?.Invoke(this, new EventArgs());
                 }
             }
+
         }
         #endregion
     }

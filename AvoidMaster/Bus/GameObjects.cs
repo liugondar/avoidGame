@@ -1,4 +1,5 @@
-﻿using AvoidMaster.Models;
+﻿using AvoidMaster.Components;
+using AvoidMaster.Models;
 using AvoidMaster.Sprite;
 using Microsoft.Xna.Framework;
 using System;
@@ -11,13 +12,14 @@ namespace AvoidMaster.Bus
 {
     public class GameObjects
     {
-        public GameObjects(Car blueCar, Car redCar, ObstacleMangager obstacleMangager,ScoreDisplay scoreDisplay,ScoreManager scoreManager)
+        public GameObjects(Car blueCar, Car redCar, ObstacleMangager obstacleMangager,ScoreDisplay scoreDisplay,ScoreManager scoreManager,CarSmokeManager carSmokeManager)
         {
             BlueCar = blueCar;
             RedCar = redCar;
             ObstacleMangager = obstacleMangager;
             ScoreDisplay = scoreDisplay;
             this.ScoreManager = scoreManager;
+            this.CarSmokeManager = carSmokeManager;
             CollisionsManager = new CollisionsManager(this,blueCar.GameBoundaries);
             IsLose = false;
             IsPlaying = true;
@@ -30,6 +32,7 @@ namespace AvoidMaster.Bus
         public bool IsPlaying { get; set; }
         public ScoreDisplay ScoreDisplay { get; set; }
         public ScoreManager ScoreManager { get; set; }
+        public CarSmokeManager CarSmokeManager { get; set; }
         public void Update(GameTime gameTime)
         {
             CollisionsManager.Update(gameTime);

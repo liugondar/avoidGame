@@ -21,7 +21,7 @@ namespace AvoidMaster.States
         {
             //background
             Texture2D backgroundTexture;
-            using (var stream = TitleContainer.OpenStream("Content/MenuBackground.png"))
+            using (var stream = TitleContainer.OpenStream(@"Content/Backgrounds/MenuBackground.png"))
             {
                 backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var rectangle = new Rectangle(game.Window.Position.X, game.Window.Position.Y, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
@@ -31,27 +31,27 @@ namespace AvoidMaster.States
 
             //back button
             Button BackMainMenuButton;
-            using (var stream = TitleContainer.OpenStream("Content/Button.png"))
+            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/Button.png"))
             {
-                var buttonFont = content.Load<SpriteFont>("Font");
+                var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 BackMainMenuButton = new Button(buttonTexture, buttonFont)
                 {
-                    Position = new Vector2(20, game.Window.ClientBounds.Height - buttonTexture.Height - 20),
+                    Position = new Vector2(20, GameBoundaries.Height - buttonTexture.Height - 20),
                     Text = "Back"
                 };
                 BackMainMenuButton.Click += BackMainMenuButton_Click;
             }
             //title font load
-            var titleFont = content.Load<SpriteFont>("HightScoreTitle");
+            var titleFont = content.Load<SpriteFont>(@"Fonts/HightScoreTitle");
             var value = "Hight Score";
-            var xPosition = (game.Window.ClientBounds.Width - titleFont.MeasureString(value).X) / 2;
+            var xPosition = (GameBoundaries.Width - titleFont.MeasureString(value).X) / 2;
             var titlePosition = new Vector2(xPosition, 100);
             title = new Text(value, titleFont, titlePosition, Color.WhiteSmoke);
             //Load score
             scoreManager = ScoreManager.Load();
-            var scoreFont = content.Load<SpriteFont>("ScoreFont");
-            var xScorePosition = (game.Window.ClientBounds.Width - titleFont.MeasureString("10").X) / 2;
+            var scoreFont = content.Load<SpriteFont>(@"Fonts/ScoreFont");
+            var xScorePosition = (GameBoundaries.Width - titleFont.MeasureString("10").X) / 2;
             var yScorePosition = 100 + title.Height;
             //Add components
             components = new List<Component>(){
@@ -74,12 +74,10 @@ namespace AvoidMaster.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             background.Draw(gameTime, spriteBatch);
 
             foreach (var component in components)
                 component.Draw(gameTime, spriteBatch);
-            spriteBatch.End();
         }
 
         public override void PostUpdate(GameTime gameTime)

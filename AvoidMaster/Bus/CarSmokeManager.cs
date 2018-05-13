@@ -65,25 +65,27 @@ namespace AvoidMaster.Bus
         private Texture2D InitTexture(string textureName)
         {
             Texture2D textureObstacle = null;
-            using (var stream = TitleContainer.OpenStream("Content/" + textureName))
+            using (var stream = TitleContainer.OpenStream(@"Content/Image/" + textureName))
             {
                 textureObstacle = Texture2D.FromStream(this.graphicsDevice, stream);
             }
             return textureObstacle;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             foreach (var smoke in CarSmokes)
-                smoke.Draw(spriteBatch);
+                smoke.Draw(gameTime, spriteBatch);
         }
         public void Update(GameTime gameTime, GameObjects gameObjects)
         {
-            if (gameObjects.IsLose || !gameObjects.IsPlaying) return;
-            UpdateMoreObstacle(gameTime, gameObjects);
-            foreach (var smoke in CarSmokes)
+            if (!gameObjects.IsLose && gameObjects.IsPlaying)
             {
-                smoke.Update(gameTime, gameObjects);
+                UpdateMoreObstacle(gameTime, gameObjects);
+            }
+            for (int i = 0; i < CarSmokes.Count; i++)
+            {
+                CarSmokes[i].Update(gameTime, gameObjects);
             }
         }
 

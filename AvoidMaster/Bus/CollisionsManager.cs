@@ -21,6 +21,7 @@ namespace AvoidMaster.Bus
 
         public void Update(GameTime gameTime)
         {
+            if(GameObjects.IsPlaying)
             CheckCollisions();
         }
 

@@ -10,35 +10,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace AvoidMaster.States
 {
     public class GameState : State
     {
-        private List<Component> components;
+        protected List<Component> components;
         private Background background;
-        private Car blueCar;
-        private Car redCar;
-        private GameObjects gameObjects;
-        private ObstacleMangager obstacleMangager;
-        private CarSmokeManager carSmokeManager;
-        private ScoreDisplay scoreDisplay;
-        private ScoreManager scoreManager;
+        protected Car blueCar;
+        protected Car redCar;
+        protected GameObjects gameObjects;
+        protected ObstacleMangager obstacleMangager;
+        protected CarSmokeManager carSmokeManager;
+        protected ScoreDisplay scoreDisplay;
+        protected ScoreManager scoreManager;
+        protected Button pauseGameButton;
+
         public GameState(MainGame game, GraphicsDeviceManager graphics, ContentManager content) : base(game, graphics, content)
         {
             //Background init
             Texture2D backgroundTexture;
-            using (var stream = TitleContainer.OpenStream("Content/GameBackGround.png"))
+            using (var stream = TitleContainer.OpenStream(@"Content/Backgrounds/GameBackGround.png"))
             {
                 backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
             }
-
 ;
             background = new Background(backgroundTexture, GameBoundaries);
 
             //Blue car init
-            using (var stream = TitleContainer.OpenStream("Content/BlueCar.png"))
+            using (var stream = TitleContainer.OpenStream(@"Content/Image/BlueCar.png"))
             {
                 var blueCarTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var location = new Vector2(blueCarTexture.Width - 5,
@@ -48,7 +48,7 @@ namespace AvoidMaster.States
             }
 
             //Red car init
-            using (var stream = TitleContainer.OpenStream("Content/RedCar.png"))
+            using (var stream = TitleContainer.OpenStream(@"Content/Image/RedCar.png"))
             {
                 var redCarTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var location = new Vector2(GameBoundaries.Width / 2 + redCarTexture.Width - 5,
@@ -57,26 +57,52 @@ namespace AvoidMaster.States
                 redCar.isHaveAnimation = true;
             }
             //Score init
-            scoreDisplay = new ScoreDisplay(content.Load<SpriteFont>("ScoreFont"), GameBoundaries);
+
+            scoreDisplay = new ScoreDisplay(content.Load<SpriteFont>(@"Fonts/ScoreFont"), GameBoundaries);
             scoreManager = ScoreManager.Load();
             //Init obstacle
             obstacleMangager = new ObstacleMangager(GameBoundaries, graphics.GraphicsDevice);
             //Init smokes
             carSmokeManager = new CarSmokeManager(GameBoundaries, graphics.GraphicsDevice);
             //Init game objects
-            gameObjects = new GameObjects(blueCar, redCar, obstacleMangager, scoreDisplay, scoreManager);
+            gameObjects = new GameObjects(blueCar, redCar, obstacleMangager, scoreDisplay, scoreManager, carSmokeManager);
+            // Pause game components
+            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/PauseGame.png"))
+            {
+                var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
+                var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                pauseGameButton = new Button(buttonTexture, buttonFont)
+                {
+                    Position = new Vector2(20, 20) 
+                };
+                pauseGameButton.Click += PauseGameText_Click;
+            }
+
+            // Load component;
+            components = new List<Component>(){
+                pauseGameButton
+            };
+
+     
+        }
+
+        private void PauseGameText_Click(object sender, EventArgs e)
+        {
+            game.ChangeState(new PauseState(game, graphics, content,this));
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             background.Draw(gameTime, spriteBatch);
-            blueCar.Draw(spriteBatch);
-            redCar.Draw(spriteBatch);
-            obstacleMangager.Draw(spriteBatch);
-            carSmokeManager.Draw(spriteBatch);
+            blueCar.Draw(gameTime, spriteBatch);
+            redCar.Draw(gameTime, spriteBatch);
+            obstacleMangager.Draw(gameTime, spriteBatch);
+            carSmokeManager.Draw(gameTime, spriteBatch);
             scoreDisplay.Draw(spriteBatch);
-            spriteBatch.End();
+            foreach (var component in components)
+            {
+                component.Draw(gameTime, spriteBatch);
+            }
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -85,12 +111,17 @@ namespace AvoidMaster.States
 
         public override void Update(GameTime gameTime)
         {
-            blueCar.Update(gameTime, gameObjects);
-            redCar.Update(gameTime, gameObjects);
-            obstacleMangager.Update(gameTime, gameObjects);
-            carSmokeManager.Update(gameTime, gameObjects);
-            gameObjects.Update(gameTime);
-            scoreDisplay.Update(gameTime, gameObjects);
+                blueCar.Update(gameTime, gameObjects);
+                redCar.Update(gameTime, gameObjects);
+                obstacleMangager.Update(gameTime, gameObjects);
+                carSmokeManager.Update(gameTime, gameObjects);
+                gameObjects.Update(gameTime);
+                scoreDisplay.Update(gameTime, gameObjects);
+                foreach (var Component in components)
+                {
+                    Component.Update(gameTime);
+                }
         }
+           
     }
 }

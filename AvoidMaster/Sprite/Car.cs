@@ -79,40 +79,43 @@ namespace AvoidMaster.Sprite
         }
         public override void Update(GameTime gameTime, GameObjects gameObjects)
         {
-            if (CarType == CarTypes.BlueCar)
+            if (gameObjects.IsPlaying)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                if (CarType == CarTypes.BlueCar)
                 {
-                    Velocity = new Vector2(-Speed, 0);
-                    
-                    IsMovingLeft = true;
-                }
+                    if (Keyboard.GetState().IsKeyDown(Keys.A))
+                    {
+                        Velocity = new Vector2(-Speed, 0);
 
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
-                {
-                    Velocity = new Vector2(Speed, 0);
-                    IsMovingRight = true;
-                }
-            }
-            else
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                {
-                    Velocity = new Vector2(-Speed, 0);
-                    IsMovingLeft = true;
-                }
+                        IsMovingLeft = true;
+                    }
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                    if (Keyboard.GetState().IsKeyDown(Keys.D))
+                    {
+                        Velocity = new Vector2(Speed, 0);
+                        IsMovingRight = true;
+                    }
+                }
+                else
                 {
-                    Velocity = new Vector2(Speed, 0);
-                    IsMovingRight = true;
+                    if (Keyboard.GetState().IsKeyDown(Keys.Left))
+                    {
+                        Velocity = new Vector2(-Speed, 0);
+                        IsMovingLeft = true;
+                    }
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                    {
+                        Velocity = new Vector2(Speed, 0);
+                        IsMovingRight = true;
+                    }
                 }
             }
 
             base.Update(gameTime, gameObjects);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(GameTime gameTime,SpriteBatch spriteBatch)
         {
             var imageWidth = Texture.Width / Columns;
             var imageHeight = Texture.Height / Rows;
