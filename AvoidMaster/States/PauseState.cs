@@ -46,7 +46,7 @@ namespace AvoidMaster.States
             }
             // Pause text
             var pauseFont = content.Load<SpriteFont>(@"Fonts/Pause");
-            var xpausePosition = (GameBoundaries.Width - pauseFont.MeasureString("Paused").X)/2;
+            var xpausePosition = (GameBoundaries.Width - pauseFont.MeasureString("Paused").X) / 2;
             var ypausePosition = resumeButton.Position.Y - 100;
             var position = new Vector2(xpausePosition, ypausePosition);
             var pauseText = new Text("Paused", pauseFont, position, Color.WhiteSmoke);
@@ -63,6 +63,9 @@ namespace AvoidMaster.States
 
         private void resumeButton_Click(object sender, EventArgs e)
         {
+            gameState.gameObjects.IsPause = false;
+            gameState.gameObjects.IsPlaying = true;
+
             game.ChangeState(gameState);
         }
 

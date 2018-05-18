@@ -15,27 +15,29 @@ namespace AvoidMaster.States
 {
     public class GameState : State
     {
-        protected List<Component> components;
-        private Background background;
-        protected Car blueCar;
-        protected Car redCar;
-        protected GameObjects gameObjects;
-        protected ObstacleMangager obstacleMangager;
-        protected CarSmokeManager carSmokeManager;
-        protected ScoreDisplay scoreDisplay;
-        protected ScoreManager scoreManager;
-        protected Button pauseGameButton;
+        public List<Component> components;
+        public Background background;
+        public Car blueCar;
+        public Car redCar;
+        public GameObjects gameObjects;
+        public ObstacleMangager obstacleMangager;
+        public CarSmokeManager carSmokeManager;
+        public ScoreDisplay scoreDisplay;
+        public ScoreManager scoreManager;
+        public Button pauseGameButton;
+        Texture2D backgroundTexture;
+        public Color colour { get; set; }
 
         public GameState(MainGame game, GraphicsDeviceManager graphics, ContentManager content) : base(game, graphics, content)
         {
+            colour = Color.White;
             //Background init
-            Texture2D backgroundTexture;
             using (var stream = TitleContainer.OpenStream(@"Content/Backgrounds/GameBackGround.png"))
             {
                 backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
             }
 ;
-            background = new Background(backgroundTexture, GameBoundaries);
+            background = new Background(backgroundTexture, GameBoundaries, colour);
 
             //Blue car init
             using (var stream = TitleContainer.OpenStream(@"Content/Image/BlueCar.png"))
@@ -43,7 +45,7 @@ namespace AvoidMaster.States
                 var blueCarTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var location = new Vector2(blueCarTexture.Width - 5,
                     GameBoundaries.Height - blueCarTexture.Height);
-                blueCar = new Car(Car.CarTypes.BlueCar, blueCarTexture, location, GameBoundaries, 2, 13, 13);
+                blueCar = new Car(Car.CarTypes.BlueCar, blueCarTexture, location, GameBoundaries, colour, 2, 13, 13);
                 blueCar.isHaveAnimation = true;
             }
 
@@ -53,17 +55,17 @@ namespace AvoidMaster.States
                 var redCarTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var location = new Vector2(GameBoundaries.Width / 2 + redCarTexture.Width - 5,
                     GameBoundaries.Height - redCarTexture.Height);
-                redCar = new Car(Car.CarTypes.RedCar, redCarTexture, location, GameBoundaries, 2, 13, 13);
+                redCar = new Car(Car.CarTypes.RedCar, redCarTexture, location, GameBoundaries, colour, 2, 13, 13);
                 redCar.isHaveAnimation = true;
             }
             //Score init
 
-            scoreDisplay = new ScoreDisplay(content.Load<SpriteFont>(@"Fonts/ScoreFont"), GameBoundaries);
+            scoreDisplay = new ScoreDisplay(content.Load<SpriteFont>(@"Fonts/ScoreFont"), GameBoundaries, colour);
             scoreManager = ScoreManager.Load();
             //Init obstacle
-            obstacleMangager = new ObstacleMangager(GameBoundaries, graphics.GraphicsDevice);
+            obstacleMangager = new ObstacleMangager(GameBoundaries, graphics.GraphicsDevice, colour);
             //Init smokes
-            carSmokeManager = new CarSmokeManager(GameBoundaries, graphics.GraphicsDevice);
+            carSmokeManager = new CarSmokeManager(GameBoundaries, graphics.GraphicsDevice, colour);
             //Init game objects
             gameObjects = new GameObjects(blueCar, redCar, obstacleMangager, scoreDisplay, scoreManager, carSmokeManager);
             // Pause game components
@@ -73,7 +75,7 @@ namespace AvoidMaster.States
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 pauseGameButton = new Button(buttonTexture, buttonFont)
                 {
-                    Position = new Vector2(20, 20) 
+                    Position = new Vector2(20, 20)
                 };
                 pauseGameButton.Click += PauseGameText_Click;
             }
@@ -83,16 +85,31 @@ namespace AvoidMaster.States
                 pauseGameButton
             };
 
-     
+
         }
 
         private void PauseGameText_Click(object sender, EventArgs e)
         {
-            game.ChangeState(new PauseState(game, graphics, content,this));
+            gameObjects.IsPause = true;
+            game.ChangeState(new PauseState(game, graphics, content, this));
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            //Change opacity when in pause or game ove mode
+            if ( gameObjects.IsPause||gameObjects.IsLose)
+                colour = Color.White * 0.2f;
+            else
+                colour = Color.White;
+
+            background.Color = colour;
+            blueCar.color = colour;
+            redCar.color = colour;
+            obstacleMangager.color = colour;
+            carSmokeManager.color = colour;
+            scoreDisplay.Color = colour;
+
+
             background.Draw(gameTime, spriteBatch);
             blueCar.Draw(gameTime, spriteBatch);
             redCar.Draw(gameTime, spriteBatch);
@@ -111,17 +128,22 @@ namespace AvoidMaster.States
 
         public override void Update(GameTime gameTime)
         {
-                blueCar.Update(gameTime, gameObjects);
-                redCar.Update(gameTime, gameObjects);
-                obstacleMangager.Update(gameTime, gameObjects);
-                carSmokeManager.Update(gameTime, gameObjects);
-                gameObjects.Update(gameTime);
-                scoreDisplay.Update(gameTime, gameObjects);
-                foreach (var Component in components)
-                {
-                    Component.Update(gameTime);
-                }
+            if (gameObjects.IsLose)
+            {
+                game.ChangeState(new GameOverState(game, graphics, content, this));
+            }
+
+            blueCar.Update(gameTime, gameObjects);
+            redCar.Update(gameTime, gameObjects);
+            obstacleMangager.Update(gameTime, gameObjects);
+            carSmokeManager.Update(gameTime, gameObjects);
+            gameObjects.Update(gameTime);
+            scoreDisplay.Update(gameTime, gameObjects);
+            foreach (var Component in components)
+            {
+                Component.Update(gameTime);
+            }
         }
-           
+
     }
 }

@@ -12,16 +12,19 @@ namespace AvoidMaster.Bus
 {
     public class ScoreDisplay
     {
-        public ScoreDisplay(SpriteFont font, Rectangle gameBoundaries)
+        public ScoreDisplay(SpriteFont font, Rectangle gameBoundaries, Color color)
         {
             Font = font;
             GameBoundaries = gameBoundaries;
+            Color = color;
             Score = new Score();
         }
 
         public SpriteFont Font { get; set; }
         public Rectangle GameBoundaries { get; set; }
+        public Color Color { get; set; }
         public Score Score { get; set; }
+        public int ScoreInLevel { get; set; }
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -34,8 +37,19 @@ namespace AvoidMaster.Bus
         }
         public void Update(GameTime gameTime, GameObjects gameObjects)
         {
-            if(gameObjects.IsPlaying)
-            CheckBounds(gameObjects);
+            if (gameObjects.IsPlaying)
+            {
+                CheckBounds(gameObjects);
+                UpdateSpeed(gameObjects);
+            }
+        }
+
+        private void UpdateSpeed(GameObjects gameObjects)
+        {
+                ScoreInLevel = Score.Value % 100;
+            if (ScoreInLevel == 20)
+            {
+            }
         }
 
         private void CheckBounds(GameObjects gameObjects)

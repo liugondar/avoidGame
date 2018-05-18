@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AvoidMaster.Components
 {
-    class Background : Component
+    public class Background : Component
     {
         #region fields
         private Texture2D Texture;
@@ -19,24 +19,27 @@ namespace AvoidMaster.Components
         protected double timeSinceLastFrame;
         protected int currentFrame;
         public bool isHaveAnimation;
+
+        public Color Color { get; set; }
         public int Rows { get; }
         public int Columns { get; }
         public double FramesPerSecond { get; }
         public int TotalFrames { get; private set; }
         #endregion
 
-        public Background(Texture2D texture, Rectangle gameBoundaries, int Rows, int Columns,
+        public Background(Texture2D texture, Rectangle gameBoundaries,Color color, int Rows, int Columns,
         int FramesPerSecond)
         {
             this.Texture = texture;
             this.gameBoundaries = gameBoundaries;
+            Color = color;
             this.Rows = Rows;
             this.Columns = Columns;
             this.FramesPerSecond = FramesPerSecond;
             TotalFrames = Rows * Columns;
             timeSinceLastFrame = 0;
         }
-        public Background(Texture2D texture, Rectangle gameBoundaries) : this(texture, gameBoundaries, 1, 1, 1) { }
+        public Background(Texture2D texture, Rectangle gameBoundaries,Color color) : this(texture, gameBoundaries,color, 1, 1, 1) { }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var imageWidth = Texture.Width / Columns;
@@ -55,10 +58,10 @@ namespace AvoidMaster.Components
                 sourceRectangle = new Rectangle(imageWidth * 0, imageHeight * 0, imageWidth, imageHeight);
                 destinationRectangle = new Rectangle(0,
                 0, imageWidth, imageHeight);
-                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color);
             }
             else
-                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color);
         }
 
 

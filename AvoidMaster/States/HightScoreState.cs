@@ -25,7 +25,7 @@ namespace AvoidMaster.States
             {
                 backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var rectangle = new Rectangle(game.Window.Position.X, game.Window.Position.Y, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
-                background = new Background(backgroundTexture, rectangle, 3, 5, 15);
+                background = new Background(backgroundTexture, rectangle, Color.White, 3, 5, 15);
                 background.isHaveAnimation = true;
             }
 
@@ -51,7 +51,6 @@ namespace AvoidMaster.States
             //Load score
             scoreManager = ScoreManager.Load();
             var scoreFont = content.Load<SpriteFont>(@"Fonts/ScoreFont");
-            var xScorePosition = (GameBoundaries.Width - titleFont.MeasureString("10").X) / 2;
             var yScorePosition = 100 + title.Height;
             //Add components
             components = new List<Component>(){
@@ -59,6 +58,7 @@ namespace AvoidMaster.States
             };
             foreach (var score in scoreManager.HighScores)
             {
+                var xScorePosition = (GameBoundaries.Width) / 2 - titleFont.MeasureString(score.Value.ToString()).X;
                 yScorePosition += 80;
                 var scorePosition = new Vector2(xScorePosition, yScorePosition);
                 var tempText = new Text(score.Value.ToString(), scoreFont, scorePosition, Color.White);

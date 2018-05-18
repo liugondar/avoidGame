@@ -20,14 +20,14 @@ namespace AvoidMaster.Sprite
     {
         public int ObstacleType { get; }
        
-        public Obstacle(int obstacleType ,Texture2D texture, Vector2 location, Rectangle gameBoundaries) : base(texture, location, gameBoundaries)
+        public Obstacle(int obstacleType ,Texture2D texture, Vector2 location, Rectangle gameBoundaries,Color color) : base(texture, location, gameBoundaries,color)
         {
             ObstacleType = obstacleType;
             Speed = 7.5f;
             Velocity = new Vector2(0,Speed);
         }
 
-        public Obstacle(int obstacleType,Texture2D texture, Vector2 location, Rectangle gameBoundaries, int rows, int columns, double framesPerSecond) : base(texture, location, gameBoundaries, rows, columns, framesPerSecond)
+        public Obstacle(int obstacleType,Texture2D texture, Vector2 location, Rectangle gameBoundaries,Color color, int rows, int columns, double framesPerSecond) : base(texture, location, gameBoundaries, color,rows, columns, framesPerSecond)
         {
             ObstacleType = obstacleType;
             Speed = 7.5f;

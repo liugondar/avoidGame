@@ -18,11 +18,13 @@ namespace AvoidMaster.Bus
         public float SpeedCreateObstacle { get; set; }
 
         private GraphicsDevice graphicsDevice;
+        public Color color { get; set; }
 
-        public CarSmokeManager(Rectangle gameBoundaries, GraphicsDevice graphicsDevice)
+        public CarSmokeManager(Rectangle gameBoundaries, GraphicsDevice graphicsDevice,Color color)
         {
             SpeedCreateObstacle = 0.1f;
             GameBoundaries = gameBoundaries;
+            this.color = color;
             this.graphicsDevice = graphicsDevice;
         }
         private void InitSmokes(GameObjects gameObjects, int smokeType)
@@ -40,7 +42,7 @@ namespace AvoidMaster.Bus
                 smokeTexture = InitTexture("BlueSmoke.png");
             if (smokeType == (int)CarSmokeTypes.RedSmoke)
                 smokeTexture = InitTexture("RedSmoke.png");
-            return new CarSmoke((int)smokeType, smokeTexture, position, GameBoundaries, 1, 5, 15);
+            return new CarSmoke((int)smokeType, smokeTexture, position, GameBoundaries,color, 1, 5, 15);
         }
 
         private Vector2 InitPosition(int smokeType, GameObjects gameObjects)

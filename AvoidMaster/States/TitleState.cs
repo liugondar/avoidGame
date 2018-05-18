@@ -26,7 +26,7 @@ namespace AvoidMaster.States
             {
                 var Font = content.Load<SpriteFont>(@"Fonts/Font");
                 var Texture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
-                Background = new Background(Texture, GameBoundaries, 1, 4, 8);
+                Background = new Background(Texture, GameBoundaries, Color.White,1, 4, 8);
                 Background.isHaveAnimation = true;
             }
             graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;

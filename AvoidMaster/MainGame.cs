@@ -52,7 +52,7 @@ namespace AvoidMaster
             {
                 backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var rectangle = new Rectangle(Window.Position.X, Window.Position.Y, Window.ClientBounds.Width, Window.ClientBounds.Height);
-                background = new Background(backgroundTexture, rectangle, 3, 5, 15);
+                background = new Background(backgroundTexture, rectangle,Color.White, 3, 5, 15);
             }
 
             graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
@@ -107,7 +107,7 @@ namespace AvoidMaster
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             currentState.Draw(gameTime, spriteBatch);

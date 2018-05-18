@@ -23,12 +23,14 @@ namespace AvoidMaster.Bus
             CollisionsManager = new CollisionsManager(this,blueCar.GameBoundaries);
             IsLose = false;
             IsPlaying = true;
+            IsPause = false;
         }
         public Car BlueCar { get; set; }
         public Car RedCar { get; set; }
         public ObstacleMangager ObstacleMangager { get; set; }
         public CollisionsManager CollisionsManager { get; set; }
         public bool IsLose { get; set; }
+        public bool IsPause{ get; set; }
         public bool IsPlaying { get; set; }
         public ScoreDisplay ScoreDisplay { get; set; }
         public ScoreManager ScoreManager { get; set; }

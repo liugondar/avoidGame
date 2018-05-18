@@ -18,7 +18,7 @@ namespace AvoidMaster.Sprite
             BlueCar,
             RedCar
         }
-        public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries) : base(texture, location, gameBoundaries)
+        public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries,Color color) : base(texture, location, gameBoundaries,color)
         {
             CarType = carType;
             Speed = 7.5f;
@@ -26,7 +26,7 @@ namespace AvoidMaster.Sprite
             IsMovingRight = false;
         }
 
-        public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries, int rows, int columns, double framesPerSecond) : base(texture, location, gameBoundaries, rows, columns, framesPerSecond)
+        public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries,Color color, int rows, int columns, double framesPerSecond) : base(texture, location, gameBoundaries,color, rows, columns, framesPerSecond)
         {
             CarType = carType;
             IsMovingLeft = false;
@@ -115,7 +115,7 @@ namespace AvoidMaster.Sprite
             base.Update(gameTime, gameObjects);
         }
 
-        public override void Draw(GameTime gameTime,SpriteBatch spriteBatch)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var imageWidth = Texture.Width / Columns;
             var imageHeight = Texture.Height / Rows;
@@ -144,10 +144,10 @@ namespace AvoidMaster.Sprite
                 sourceRectangle = new Rectangle(imageWidth * 0, imageHeight * 0, imageWidth, imageHeight);
                 destinationRectangle = new Rectangle((int)Position.X,
                 (int)Position.Y, imageWidth, imageHeight);
-                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, color);
             }
             else
-                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, color);
         }
         private void UpdateAnimation(GameTime gameTime)
         {

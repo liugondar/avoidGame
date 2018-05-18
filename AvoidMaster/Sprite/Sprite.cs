@@ -21,17 +21,20 @@ namespace AvoidMaster.Sprite
         protected double timeSinceLastFrame;
         protected int currentFrame;
         public bool isHaveAnimation;
+        private Vector2 location;
+
         public int Rows { get; }
         public int Columns { get; }
         public double FramesPerSecond { get; }
         public int TotalFrames { get; private set; }
 
         public Vector2 Velocity { get; set; }
+        public Color color { get; set; }
 
-        public Sprite(Texture2D texture, Vector2 location, Rectangle gameBoundaries) : this(texture, location, gameBoundaries, 1, 1, 1)
+        public Sprite(Texture2D texture, Vector2 location, Rectangle gameBoundaries,Color color) : this(texture, location, gameBoundaries, color, 1, 1, 1)
         {
         }
-        public Sprite(Texture2D texture, Vector2 location, Rectangle gameBoundaries,
+        public Sprite(Texture2D texture, Vector2 location, Rectangle gameBoundaries, Color color,
             int rows, int columns, double framesPerSecond)
         {
             this.Texture = texture;
@@ -39,9 +42,17 @@ namespace AvoidMaster.Sprite
             GameBoundaries = gameBoundaries;
             Rows = rows;
             Columns = columns;
+            this.color = color;
             FramesPerSecond = framesPerSecond;
             TotalFrames = rows * columns;
             timeSinceLastFrame = 0;
+        }
+
+        protected Sprite(Texture2D texture, Vector2 location, Rectangle gameBoundaries)
+        {
+            Texture = texture;
+            this.location = location;
+            GameBoundaries = gameBoundaries;
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -62,10 +73,10 @@ namespace AvoidMaster.Sprite
                 sourceRectangle = new Rectangle(imageWidth * 0, imageHeight * 0, imageWidth, imageHeight);
                 destinationRectangle = new Rectangle((int)Position.X,
                 (int)Position.Y, imageWidth, imageHeight);
-                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, color);
             }
             else
-                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, color);
 
         }
         public virtual void Update(GameTime gameTime, GameObjects gameObjects)

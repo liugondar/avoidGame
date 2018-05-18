@@ -19,11 +19,13 @@ namespace AvoidMaster.Bus
         public float SpeedCreateObstacle { get; set; }
 
         private GraphicsDevice graphicsDevice;
+        public Color color { get; set; }
 
-        public ObstacleMangager(Rectangle gameBoundaries, GraphicsDevice graphicsDevice)
+        public ObstacleMangager(Rectangle gameBoundaries, GraphicsDevice graphicsDevice,Color color)
         {
             GameBoundaries = gameBoundaries;
             this.graphicsDevice = graphicsDevice;
+            this.color = color;
             SpeedCreateObstacle = 1f;
             CreateEnemy();
         }
@@ -45,32 +47,32 @@ namespace AvoidMaster.Bus
             {
                 textureObstacle = InitTexture("BlueCircle.png");
                 return new Obstacle((int)ObstacleTypes.BlueCircle,
-                    textureObstacle, position, GameBoundaries);
+                    textureObstacle, position, GameBoundaries,this.color);
             }
 
             if (obstacleType == (int)ObstacleTypes.BlueRectangle)
             {
                 textureObstacle = InitTexture("BlueRectangle.png");
                 return new Obstacle((int)ObstacleTypes.BlueRectangle,
-                    textureObstacle, position, GameBoundaries);
+                    textureObstacle, position, GameBoundaries,this.color);
             }
 
             if (obstacleType == (int)ObstacleTypes.RedCircle)
             {
                 textureObstacle = InitTexture("RedCircle.png");
                 return new Obstacle((int)ObstacleTypes.RedCircle,
-                    textureObstacle, position, GameBoundaries);
+                    textureObstacle, position, GameBoundaries,this.color);
             }
 
             if (obstacleType == (int)ObstacleTypes.RedRectangle)
             {
                 textureObstacle = InitTexture("RedRectangle.png");
                 return new Obstacle((int)ObstacleTypes.RedRectangle,
-                    textureObstacle, position, GameBoundaries);
+                    textureObstacle, position, GameBoundaries,this.color);
             }
 
             return new Obstacle((int)ObstacleTypes.BlueCircle,
-                    textureObstacle, position, GameBoundaries);
+                    textureObstacle, position, GameBoundaries,this.color);
         }
 
         private Texture2D InitTexture(string textureName)
@@ -126,7 +128,10 @@ namespace AvoidMaster.Bus
         public void Draw(GameTime gameTime,SpriteBatch spriteBatch)
         {
             foreach (var obstacle in obstacles)
+            {
+                obstacle.color = this.color;
                 obstacle.Draw(gameTime,spriteBatch);
+            }
         }
         public void Update(GameTime gameTime, GameObjects gameObjects)
         {

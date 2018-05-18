@@ -64,7 +64,7 @@ namespace AvoidMaster.States
             {
                 backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var rectangle = new Rectangle(game.Window.Position.X, game.Window.Position.Y, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
-                background = new Background(backgroundTexture, rectangle, 3, 5, 15);
+                background = new Background(backgroundTexture, rectangle,Color.White, 3, 5, 15);
                 background.isHaveAnimation = true;
             }
 
