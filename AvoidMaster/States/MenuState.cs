@@ -25,12 +25,9 @@ namespace AvoidMaster.States
         {
             LoadContent(game, content);
 
-            // Check if music is mute=> will change texture of music button
-            if (game.soundManager != null)
-            {
-                ChangeMusicButtonTexture();
-                ChangeSoundButtonTexuture();
-            }
+            ChangeMusicButtonTexture();
+            ChangeSoundButtonTexuture();
+
             graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
             graphics.PreferredBackBufferWidth = 500;
             graphics.ApplyChanges();

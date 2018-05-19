@@ -15,9 +15,18 @@ namespace AvoidMaster.States
         public GameState GameState { get; }
         public List<Component> Components { get; set; }
         Texture2D backgroundTexture;
+        private Button musicButton;
+        private Button soundButton;
         public GameOverState(MainGame game, GraphicsDeviceManager graphics, ContentManager content, GameState gameState) : base(game, graphics, content)
         {
             GameState = gameState;
+            LoadContent(game, content);
+            ChangeMusicButtonTexture();
+            ChangeSoundButtonTexuture();
+        }
+
+        private void LoadContent(MainGame game, ContentManager content)
+        {
             //Restart button
             Button restartButton;
             using (var stream = TitleContainer.OpenStream(@"Content/Buttons/RestartButton.png"))
@@ -32,35 +41,64 @@ namespace AvoidMaster.States
                 };
                 restartButton.Click += restartButton_Click;
             }
-            //Home button
-            Button HomeButton;
-            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/HomeButton.png"))
-            {
-                var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
-                var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
-                var xPosition = (game.Window.ClientBounds.Width - buttonTexture.Width) / 2;
-                var yPosition = restartButton.Position.Y + restartButton.Height + 50;
-                HomeButton = new Button(buttonTexture, buttonFont)
-                {
-                    Position = new Vector2(xPosition, yPosition),
-                };
-                HomeButton.Click += HomeButton_Click;
-            }
-
             //Rank button
             Button rankButton;
             using (var stream = TitleContainer.OpenStream(@"Content/Buttons/RankButton.png"))
             {
                 var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
-                var xPosition = HomeButton.Position.X - 100;
-                var yPosition = HomeButton.Position.Y;
+                var xPosition = restartButton.Position.X;
+                var yPosition = restartButton.Position.Y + restartButton.Height + 50;
                 rankButton = new Button(buttonTexture, buttonFont)
                 {
                     Position = new Vector2(xPosition, yPosition),
                 };
                 rankButton.Click += rankButton_Click;
             }
+            //Home button
+            Button HomeButton;
+            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/HomeButton.png"))
+            {
+                var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
+                var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                var xPosition = rankButton.Position.X - rankButton.Width-20;
+                var yPosition = rankButton.Position.Y;
+                HomeButton = new Button(buttonTexture, buttonFont)
+                {
+                    Position = new Vector2(xPosition, yPosition),
+                };
+                HomeButton.Click += HomeButton_Click;
+            }
+            // Sounds  button
+            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/SoundButton.png"))
+            {
+                var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
+                var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                var xPosition = rankButton.Position.X + rankButton.Width +20;
+                var yPosition = rankButton.Position.Y;
+                soundButton = new Button(buttonTexture, buttonFont)
+                {
+                    Position = new Vector2(xPosition, yPosition),
+                };
+                soundButton.Click += SoundButton_Click;
+            }
+
+
+
+            // Music background button
+            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/MusicButton.png"))
+            {
+                var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
+                var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                var xPosition = soundButton.Position.X + soundButton.Width + 20;
+                var yPosition = soundButton.Position.Y;
+                musicButton = new Button(buttonTexture, buttonFont)
+                {
+                    Position = new Vector2(xPosition, yPosition),
+                };
+                musicButton.Click += MusicButton_Click;
+            }
+
             // Game over text
             var gameOverFont = content.Load<SpriteFont>(@"Fonts/Pause");
             var xGameOverPosition = (GameBoundaries.Width - gameOverFont.MeasureString("Game Over").X) / 2;
@@ -76,9 +114,70 @@ namespace AvoidMaster.States
             };
 
             Components = new List<Component>(){
-                restartButton,gameOverText,HomeButton,rankButton
+                restartButton,gameOverText,HomeButton,rankButton,soundButton,musicButton
             };
         }
+
+        private void SoundButton_Click(object sender, EventArgs e)
+        {
+            game.soundManager.ChangeStateSound();
+            ChangeSoundButtonTexuture();
+        }
+
+        private void MusicButton_Click(object sender, EventArgs e)
+        {
+            game.soundManager.ChangeStateBackgroundSound();
+            ChangeMusicButtonTexture();
+        }
+        private void ChangeSoundButtonTexuture()
+        {
+            if (game.soundManager != null)
+            {
+                Texture2D buttonTexture;
+                if (game.soundManager.IsSoundPlaying)
+                {
+                    using (var stream = TitleContainer.OpenStream(@"Content/Buttons/SoundButton.png"))
+                    {
+                        buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                        soundButton.Texture = buttonTexture;
+                    }
+                }
+                else
+                {
+                    using (var stream = TitleContainer.OpenStream(@"Content/Buttons/MutedSoundButton.png"))
+                    {
+                        buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                        soundButton.Texture = buttonTexture;
+                    }
+                }
+            }
+
+        }
+
+        private void ChangeMusicButtonTexture()
+        {
+            if (game.soundManager != null)
+            {
+                Texture2D buttonTexture;
+                if (game.soundManager.IsBackgroundMusicPlaying)
+                {
+                    using (var stream = TitleContainer.OpenStream(@"Content/Buttons/MusicButton.png"))
+                    {
+                        buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                        musicButton.Texture = buttonTexture;
+                    }
+                }
+                else
+                {
+                    using (var stream = TitleContainer.OpenStream(@"Content/Buttons/MutedMusicButton.png"))
+                    {
+                        buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                        musicButton.Texture = buttonTexture;
+                    }
+                }
+            }
+        }
+
 
         private void rankButton_Click(object sender, EventArgs e)
         {

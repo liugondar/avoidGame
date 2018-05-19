@@ -92,6 +92,8 @@ namespace AvoidMaster.States
             };
         }
 
+
+
         private void PauseGameText_Click(object sender, EventArgs e)
         {
             gameObjects.IsPause = true;
