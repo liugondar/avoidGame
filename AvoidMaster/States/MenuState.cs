@@ -25,7 +25,7 @@ namespace AvoidMaster.States
                 var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var xPosition = 500 / 2 - buttonTexture.Width / 2;
-                var yPosition = 889 / 2 - buttonTexture.Height * 2;
+                var yPosition = 889 / 2 - buttonTexture.Height * 2+100;
                 newGameButton = new Button(buttonTexture, buttonFont)
                 {
                     Position = new Vector2(xPosition, yPosition),
@@ -38,7 +38,7 @@ namespace AvoidMaster.States
                 var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var xPosition = newGameButton.Position.X;
-                var yPosition = newGameButton.Position.Y + 100 + newGameButton.Width;
+                var yPosition = newGameButton.Position.Y + 50 + newGameButton.Width;
                 hightScoreButton = new Button(buttonTexture, buttonFont)
                 {
                     Position = new Vector2(xPosition, yPosition),

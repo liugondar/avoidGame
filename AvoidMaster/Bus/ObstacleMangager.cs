@@ -16,17 +16,19 @@ namespace AvoidMaster.Bus
         public List<Obstacle> obstacles = new List<Obstacle>();
         public Rectangle GameBoundaries { get; }
         private double timeSinceLastObstacle;
+        public float SpeedObstacle { get; set; }
         public float SpeedCreateObstacle { get; set; }
 
         private GraphicsDevice graphicsDevice;
         public Color color { get; set; }
 
-        public ObstacleMangager(Rectangle gameBoundaries, GraphicsDevice graphicsDevice,Color color)
+        public ObstacleMangager(Rectangle gameBoundaries, GraphicsDevice graphicsDevice, Color color, float SpeedObstacle)
         {
             GameBoundaries = gameBoundaries;
             this.graphicsDevice = graphicsDevice;
             this.color = color;
             SpeedCreateObstacle = 1f;
+            this.SpeedObstacle = SpeedObstacle;
             CreateEnemy();
         }
 
@@ -46,33 +48,33 @@ namespace AvoidMaster.Bus
             if (obstacleType == (int)ObstacleTypes.BlueCircle)
             {
                 textureObstacle = InitTexture("BlueCircle.png");
-                return new Obstacle((int)ObstacleTypes.BlueCircle,
-                    textureObstacle, position, GameBoundaries,this.color);
+                return new Obstacle((int)ObstacleTypes.BlueCircle, SpeedObstacle,
+                    textureObstacle, position, GameBoundaries, this.color);
             }
 
             if (obstacleType == (int)ObstacleTypes.BlueRectangle)
             {
                 textureObstacle = InitTexture("BlueRectangle.png");
-                return new Obstacle((int)ObstacleTypes.BlueRectangle,
-                    textureObstacle, position, GameBoundaries,this.color);
+                return new Obstacle((int)ObstacleTypes.BlueRectangle, SpeedObstacle,
+                    textureObstacle, position, GameBoundaries, this.color);
             }
 
             if (obstacleType == (int)ObstacleTypes.RedCircle)
             {
                 textureObstacle = InitTexture("RedCircle.png");
-                return new Obstacle((int)ObstacleTypes.RedCircle,
-                    textureObstacle, position, GameBoundaries,this.color);
+                return new Obstacle((int)ObstacleTypes.RedCircle, SpeedObstacle,
+                    textureObstacle, position, GameBoundaries, this.color);
             }
 
             if (obstacleType == (int)ObstacleTypes.RedRectangle)
             {
                 textureObstacle = InitTexture("RedRectangle.png");
-                return new Obstacle((int)ObstacleTypes.RedRectangle,
-                    textureObstacle, position, GameBoundaries,this.color);
+                return new Obstacle((int)ObstacleTypes.RedRectangle, SpeedObstacle,
+                    textureObstacle, position, GameBoundaries, this.color);
             }
 
-            return new Obstacle((int)ObstacleTypes.BlueCircle,
-                    textureObstacle, position, GameBoundaries,this.color);
+            return new Obstacle((int)ObstacleTypes.BlueCircle, SpeedObstacle,
+                    textureObstacle, position, GameBoundaries, this.color);
         }
 
         private Texture2D InitTexture(string textureName)
@@ -125,18 +127,25 @@ namespace AvoidMaster.Bus
             return finalRandomPosition;
         }
 
-        public void Draw(GameTime gameTime,SpriteBatch spriteBatch)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             foreach (var obstacle in obstacles)
             {
                 obstacle.color = this.color;
-                obstacle.Draw(gameTime,spriteBatch);
+                obstacle.Draw(gameTime, spriteBatch);
             }
         }
         public void Update(GameTime gameTime, GameObjects gameObjects)
         {
             if (!gameObjects.IsLose && gameObjects.IsPlaying)
-            UpdateMoreObstacle(gameTime);
+            {
+                var enemysCount = random.Next(1, 4);
+                for (int i = 0; i < enemysCount; i++)
+                {
+                UpdateMoreObstacle(gameTime);
+                }
+            }
+
             foreach (var obstacle in obstacles)
                 obstacle.Update(gameTime, gameObjects);
         }

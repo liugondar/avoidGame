@@ -21,7 +21,7 @@ namespace AvoidMaster.States
         {
             //background
             Texture2D backgroundTexture;
-            using (var stream = TitleContainer.OpenStream(@"Content/Backgrounds/MenuBackground.png"))
+            using (var stream = TitleContainer.OpenStream(@"Content/Backgrounds/HightScoreBackground.png"))
             {
                 backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var rectangle = new Rectangle(game.Window.Position.X, game.Window.Position.Y, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);

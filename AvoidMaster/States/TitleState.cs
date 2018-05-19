@@ -32,7 +32,6 @@ namespace AvoidMaster.States
             graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
             graphics.PreferredBackBufferWidth = Background.Width;
             graphics.ApplyChanges();
-
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

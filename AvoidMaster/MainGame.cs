@@ -5,6 +5,7 @@ using AvoidMaster.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -21,6 +22,7 @@ namespace AvoidMaster
 
         private State currentState;
         private State nextState;
+        public Song backgroundSong;
 
         protected List<Components.Component> components;
         private Background background;
@@ -73,7 +75,18 @@ namespace AvoidMaster
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             currentState = new MenuState(this, graphics, Content);
-
+            this.backgroundSong = Content.Load<Song>("Music/background");
+            MediaPlayer.Play(backgroundSong);
+            //  Uncomment the following line will also loop the song
+            //  MediaPlayer.IsRepeating = true;
+            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
+        }
+        void MediaPlayer_MediaStateChanged(object sender, System.
+                                          EventArgs e)
+        {
+            // 0.0f is silent, 1.0f is full volume
+            MediaPlayer.Volume -= 0.1f;
+            MediaPlayer.Play(backgroundSong);
         }
 
         /// <summary>

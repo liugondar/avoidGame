@@ -13,3 +13,21 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Music/collision.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/collision.mp3
+
+#begin Music/explosion.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/explosion.mp3
+
+#begin Music/background.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/background.mp3
+

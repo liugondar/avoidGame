@@ -63,7 +63,7 @@ namespace AvoidMaster.States
             scoreDisplay = new ScoreDisplay(content.Load<SpriteFont>(@"Fonts/ScoreFont"), GameBoundaries, colour);
             scoreManager = ScoreManager.Load();
             //Init obstacle
-            obstacleMangager = new ObstacleMangager(GameBoundaries, graphics.GraphicsDevice, colour);
+            obstacleMangager = new ObstacleMangager(GameBoundaries, graphics.GraphicsDevice, colour,7.5f);
             //Init smokes
             carSmokeManager = new CarSmokeManager(GameBoundaries, graphics.GraphicsDevice, colour);
             //Init game objects
