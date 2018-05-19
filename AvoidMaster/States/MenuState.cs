@@ -7,6 +7,7 @@ using AvoidMaster.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 namespace AvoidMaster.States
 {
@@ -17,15 +18,30 @@ namespace AvoidMaster.States
         private Button newGameButton;
         private Button hightScoreButton;
         private Button quitGameButton;
+        private Button musicButton;
 
         public MenuState(MainGame game, GraphicsDeviceManager graphics, ContentManager content) : base(game, graphics, content)
+        {
+            LoadContent(game, content);
+
+            // Check if music is mute=> will change texture of music button
+            if (game.soundManager != null)
+            {
+                ChangeMusicButtonTexture();
+            }
+            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
+            graphics.PreferredBackBufferWidth = 500;
+            graphics.ApplyChanges();
+        }
+
+        private void LoadContent(MainGame game, ContentManager content)
         {
             using (var stream = TitleContainer.OpenStream(@"Content/Buttons/StartGame.png"))
             {
                 var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var xPosition = 500 / 2 - buttonTexture.Width / 2;
-                var yPosition = 889 / 2 - buttonTexture.Height * 2+100;
+                var yPosition = 889 / 2 - buttonTexture.Height * 2 + 100;
                 newGameButton = new Button(buttonTexture, buttonFont)
                 {
                     Position = new Vector2(xPosition, yPosition),
@@ -46,6 +62,20 @@ namespace AvoidMaster.States
                 hightScoreButton.Click += HightScoreButton_Click;
             }
 
+            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/MusicButton.png"))
+            {
+                var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
+                var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                var xPosition = hightScoreButton.Position.X - hightScoreButton.Width - 30;
+                var yPosition = hightScoreButton.Position.Y;
+                musicButton = new Button(buttonTexture, buttonFont)
+                {
+                    Position = new Vector2(xPosition, yPosition),
+                };
+                musicButton.Click += MusicButton_Click;
+            }
+
+
             using (var stream = TitleContainer.OpenStream(@"Content/Buttons/QuitButton.png"))
             {
                 var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
@@ -64,19 +94,42 @@ namespace AvoidMaster.States
             {
                 backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var rectangle = new Rectangle(game.Window.Position.X, game.Window.Position.Y, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
-                background = new Background(backgroundTexture, rectangle,Color.White, 3, 5, 15);
+                background = new Background(backgroundTexture, rectangle, Color.White, 3, 5, 15);
                 background.isHaveAnimation = true;
             }
 
             // load component
             components = new List<Component>()
             {
-                newGameButton,hightScoreButton,quitGameButton
+                newGameButton,hightScoreButton,quitGameButton,musicButton
             };
+        }
 
-            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
-            graphics.PreferredBackBufferWidth = 500;
-            graphics.ApplyChanges();
+        private void MusicButton_Click(object sender, EventArgs e)
+        {
+            game.soundManager.ChangeStateBackgroundSound();
+            ChangeMusicButtonTexture();
+        }
+
+        private void ChangeMusicButtonTexture()
+        {
+            Texture2D buttonTexture;
+            if (game.soundManager.IsBackgroundMusicPlaying)
+            {
+                using (var stream = TitleContainer.OpenStream(@"Content/Buttons/MusicButton.png"))
+                {
+                    buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                    musicButton.Texture = buttonTexture;
+                }
+            }
+            else
+            {
+                using (var stream = TitleContainer.OpenStream(@"Content/Buttons/MutedMusicButton.png"))
+                {
+                    buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                    musicButton.Texture = buttonTexture;
+                }
+            }
         }
 
         private void QuitgameButton_Click(object sender, EventArgs e)

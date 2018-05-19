@@ -21,18 +21,19 @@ namespace AvoidMaster.Components
 
         #region Properties
         public Color PenColor { get; set; }
-        public float Width => texture.Width;
-        public float Height => texture.Height;
+        public float Width => Texture.Width;
+        public float Height => Texture.Height;
         public event EventHandler Click;
         public Vector2 Position { get; set; }
-        public Rectangle Rectangle => new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height);
+        public Rectangle Rectangle => new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
         public string Text { get; set; }
+        public Texture2D Texture { get => texture; set => texture = value; }
         #endregion
 
         #region Methods
         public Button(Texture2D texture, SpriteFont spriteFont)
         {
-            this.texture = texture;
+            this.Texture = texture;
             this.font = spriteFont;
             PenColor = Color.Black;
         }
@@ -46,7 +47,7 @@ namespace AvoidMaster.Components
 
             }
 
-            spriteBatch.Draw(texture, Rectangle, _color);
+            spriteBatch.Draw(Texture, Rectangle, _color);
 
             if (!string.IsNullOrWhiteSpace(Text))
             {

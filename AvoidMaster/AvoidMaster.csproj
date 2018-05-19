@@ -45,6 +45,7 @@
     <Compile Include="Bus\CollisionsManager.cs" />
     <Compile Include="Bus\ScoreDisplay.cs" />
     <Compile Include="Bus\ScoreManager.cs" />
+    <Compile Include="Bus\SoundManager.cs" />
     <Compile Include="Components\Text.cs" />
     <Compile Include="Models\Score.cs" />
     <Compile Include="Components\Background.cs" />
@@ -87,6 +88,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Backgrounds\TitleScreen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Buttons\MusicButton.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Buttons\MutedMusicButton.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Buttons\PauseGame.png">
