@@ -31,14 +31,13 @@ namespace AvoidMaster.States
 
             //back button
             Button BackMainMenuButton;
-            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/Button.png"))
+            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/BackButton.png"))
             {
                 var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 BackMainMenuButton = new Button(buttonTexture, buttonFont)
                 {
-                    Position = new Vector2(20, GameBoundaries.Height - buttonTexture.Height - 20),
-                    Text = "Back"
+                    Position = new Vector2(40, GameBoundaries.Height - buttonTexture.Height - 50),
                 };
                 BackMainMenuButton.Click += BackMainMenuButton_Click;
             }
