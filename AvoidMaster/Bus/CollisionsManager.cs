@@ -10,10 +10,12 @@ namespace AvoidMaster.Bus
 {
     public class CollisionsManager
     {
-        public CollisionsManager(GameObjects gameObjects, Rectangle gameBoundaries)
+        public SoundManager soundManager { get; set; }
+        public CollisionsManager(GameObjects gameObjects, Rectangle gameBoundaries, SoundManager soundManager)
         {
             GameObjects = gameObjects;
             GameBoundaries = gameBoundaries;
+            this.soundManager = soundManager;
         }
 
         public GameObjects GameObjects { get; set; }
@@ -44,6 +46,7 @@ namespace AvoidMaster.Bus
                 {
                     GameObjects.ObstacleMangager.obstacles.Remove(item);
                     GameObjects.ScoreDisplay.Score.Value++;
+                    soundManager.PlayCollisionSound();
                 }
 
             }
@@ -60,6 +63,7 @@ namespace AvoidMaster.Bus
                 {
                     GameObjects.ObstacleMangager.obstacles.Remove(item);
                     GameObjects.ScoreDisplay.Score.Value++;
+                    soundManager.PlayCollisionSound();
                 }
 
             }
@@ -74,11 +78,11 @@ namespace AvoidMaster.Bus
                 bool isIntersects = item.BoundingBox.Intersects(GameObjects.RedCar.BoundingBox);
                 if (isIntersects)
                 {
-                    GameObjects.ObstacleMangager.obstacles.Remove(item);
                     GameObjects.IsLose = true;
                     GameObjects.IsPlaying = false;
 
                     GameObjects.ScoreManager.Add(GameObjects.ScoreDisplay.Score);
+                    soundManager.PlayExplosionSound();
                     ScoreManager.Save(GameObjects.ScoreManager);
                 }
                 //TODO: Minus score score & make anitmation collision
@@ -95,11 +99,11 @@ namespace AvoidMaster.Bus
                 bool isIntersects = item.BoundingBox.Intersects(GameObjects.BlueCar.BoundingBox);
                 if (isIntersects)
                 {
-                    GameObjects.ObstacleMangager.obstacles.Remove(item);
                     //TODO: Minus score and make animation collision
                     GameObjects.IsLose = true;
                     GameObjects.IsPlaying = false;
                     GameObjects.ScoreManager.Add(GameObjects.ScoreDisplay.Score);
+                    soundManager.PlayExplosionSound();
                     ScoreManager.Save(GameObjects.ScoreManager);
                 }
             }

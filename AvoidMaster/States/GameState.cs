@@ -31,12 +31,27 @@ namespace AvoidMaster.States
         public GameState(MainGame game, GraphicsDeviceManager graphics, ContentManager content) : base(game, graphics, content)
         {
             colour = Color.White;
+            LoadContent();
+            //Score init
+
+            scoreDisplay = new ScoreDisplay(content.Load<SpriteFont>(@"Fonts/ScoreFont"), GameBoundaries, colour);
+            scoreManager = ScoreManager.Load();
+            //Init obstacle
+            obstacleMangager = new ObstacleMangager(GameBoundaries, graphics.GraphicsDevice, colour, 7.5f);
+            //Init smokes
+            carSmokeManager = new CarSmokeManager(GameBoundaries, graphics.GraphicsDevice, colour);
+            //Init game objects
+            gameObjects = new GameObjects(blueCar, redCar, obstacleMangager, scoreDisplay, scoreManager, carSmokeManager,game.soundManager);
+        }
+
+        private void LoadContent()
+        {
             //Background init
             using (var stream = TitleContainer.OpenStream(@"Content/Backgrounds/GameBackGround.png"))
             {
                 backgroundTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
             }
-;
+        ;
             background = new Background(backgroundTexture, GameBoundaries, colour);
 
             //Blue car init
@@ -58,16 +73,7 @@ namespace AvoidMaster.States
                 redCar = new Car(Car.CarTypes.RedCar, redCarTexture, location, GameBoundaries, colour, 2, 13, 13);
                 redCar.isHaveAnimation = true;
             }
-            //Score init
 
-            scoreDisplay = new ScoreDisplay(content.Load<SpriteFont>(@"Fonts/ScoreFont"), GameBoundaries, colour);
-            scoreManager = ScoreManager.Load();
-            //Init obstacle
-            obstacleMangager = new ObstacleMangager(GameBoundaries, graphics.GraphicsDevice, colour,7.5f);
-            //Init smokes
-            carSmokeManager = new CarSmokeManager(GameBoundaries, graphics.GraphicsDevice, colour);
-            //Init game objects
-            gameObjects = new GameObjects(blueCar, redCar, obstacleMangager, scoreDisplay, scoreManager, carSmokeManager);
             // Pause game components
             using (var stream = TitleContainer.OpenStream(@"Content/Buttons/PauseGame.png"))
             {
@@ -84,8 +90,6 @@ namespace AvoidMaster.States
             components = new List<Component>(){
                 pauseGameButton
             };
-
-
         }
 
         private void PauseGameText_Click(object sender, EventArgs e)

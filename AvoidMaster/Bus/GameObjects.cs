@@ -12,7 +12,7 @@ namespace AvoidMaster.Bus
 {
     public class GameObjects
     {
-        public GameObjects(Car blueCar, Car redCar, ObstacleMangager obstacleMangager,ScoreDisplay scoreDisplay,ScoreManager scoreManager,CarSmokeManager carSmokeManager)
+        public GameObjects(Car blueCar, Car redCar, ObstacleMangager obstacleMangager,ScoreDisplay scoreDisplay,ScoreManager scoreManager,CarSmokeManager carSmokeManager, SoundManager soundManager)
         {
             BlueCar = blueCar;
             RedCar = redCar;
@@ -20,7 +20,7 @@ namespace AvoidMaster.Bus
             ScoreDisplay = scoreDisplay;
             this.ScoreManager = scoreManager;
             this.CarSmokeManager = carSmokeManager;
-            CollisionsManager = new CollisionsManager(this,blueCar.GameBoundaries);
+            CollisionsManager = new CollisionsManager(this,blueCar.GameBoundaries,soundManager);
             IsLose = false;
             IsPlaying = true;
             IsPause = false;
