@@ -18,7 +18,7 @@ namespace AvoidMaster.Sprite
             BlueCar,
             RedCar
         }
-        public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries,Color color) : base(texture, location, gameBoundaries,color)
+        public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries, Color color) : base(texture, location, gameBoundaries, color)
         {
             CarType = carType;
             Speed = 7.5f;
@@ -26,7 +26,7 @@ namespace AvoidMaster.Sprite
             IsMovingRight = false;
         }
 
-        public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries,Color color, int rows, int columns, double framesPerSecond) : base(texture, location, gameBoundaries,color, rows, columns, framesPerSecond)
+        public Car(CarTypes carType, Texture2D texture, Vector2 location, Rectangle gameBoundaries, Color color, int rows, int columns, double framesPerSecond) : base(texture, location, gameBoundaries, color, rows, columns, framesPerSecond)
         {
             CarType = carType;
             IsMovingLeft = false;
@@ -110,9 +110,10 @@ namespace AvoidMaster.Sprite
                         IsMovingRight = true;
                     }
                 }
+                Position += Velocity;
+                UpdateAnimation(gameTime);
+                CheckBounds();
             }
-
-            base.Update(gameTime, gameObjects);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

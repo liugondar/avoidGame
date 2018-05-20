@@ -102,9 +102,9 @@ namespace AvoidMaster.Bus
 
             foreach (var item in listCircle)
             {
-                if (item.Position.Y > GameBoundaries.Height)
+                if (item.Position.Y+item.Height > GameBoundaries.Height)
                 {
-                    gameObjects.ObstacleMangager.obstacles.Remove(item);
+                    item.isHaveAnimation = true;
                     //TODO: add action when miss circle
                     gameObjects.IsLose = true;
                     gameObjects.IsPlaying = false;
@@ -122,9 +122,9 @@ namespace AvoidMaster.Bus
 
             foreach (var item in listCircle)
             {
-                if (item.Position.Y > GameBoundaries.Height)
+                if (item.Position.Y+item.Height > GameBoundaries.Height)
                 {
-                    gameObjects.ObstacleMangager.obstacles.Remove(item);
+                    item.isHaveAnimation = true;
                     //TODO: add action when miss circle
                     gameObjects.IsLose = true;
                     gameObjects.IsPlaying = false;

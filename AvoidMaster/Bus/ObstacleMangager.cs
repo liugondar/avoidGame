@@ -49,7 +49,7 @@ namespace AvoidMaster.Bus
             {
                 textureObstacle = InitTexture("BlueCircle.png");
                 return new Obstacle((int)ObstacleTypes.BlueCircle, SpeedObstacle,
-                    textureObstacle, position, GameBoundaries, this.color);
+                    textureObstacle, position, GameBoundaries, this.color,1,4,16);
             }
 
             if (obstacleType == (int)ObstacleTypes.BlueRectangle)
@@ -63,7 +63,7 @@ namespace AvoidMaster.Bus
             {
                 textureObstacle = InitTexture("RedCircle.png");
                 return new Obstacle((int)ObstacleTypes.RedCircle, SpeedObstacle,
-                    textureObstacle, position, GameBoundaries, this.color);
+                    textureObstacle, position, GameBoundaries, this.color,1,4,16);
             }
 
             if (obstacleType == (int)ObstacleTypes.RedRectangle)

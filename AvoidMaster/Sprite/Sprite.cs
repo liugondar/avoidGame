@@ -83,10 +83,10 @@ namespace AvoidMaster.Sprite
         {
             if (gameObjects.IsPlaying)
             {
-                UpdateAnimation(gameTime);
                 Position += Velocity;
                 CheckBounds();
             }
+            UpdateAnimation(gameTime);
         }
 
         private void UpdateAnimation(GameTime gameTime)

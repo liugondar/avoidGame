@@ -20,7 +20,7 @@ namespace AvoidMaster.Sprite
     {
         public int ObstacleType { get; }
        
-        public Obstacle(int obstacleType ,float Speed,Texture2D texture, Vector2 location, Rectangle gameBoundaries,Color color) : base(texture, location, gameBoundaries,color)
+        public Obstacle(int obstacleType ,float Speed,Texture2D texture, Vector2 location, Rectangle gameBoundaries,Color color) : base(texture, location, gameBoundaries,color,1,1,1)
         {
             ObstacleType = obstacleType;
             this.Speed = Speed;
