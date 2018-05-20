@@ -27,6 +27,27 @@ namespace AvoidMaster.States
 
         private void LoadContent(MainGame game, ContentManager content)
         {
+            // Game over text
+            var gameOverFont = content.Load<SpriteFont>(@"Fonts/Pause");
+            var xGameOverPosition = (GameBoundaries.Width - gameOverFont.MeasureString("Game Over").X) / 2;
+            var yGameOverPosition = (game.Window.ClientBounds.Height) / 6 ;
+            var gameOverPosition = new Vector2(xGameOverPosition, yGameOverPosition);
+            var gameOverText = new Text("Game Over", gameOverFont, gameOverPosition, Color.WhiteSmoke);
+            //Score text
+            var scoreTextFont = content.Load<SpriteFont>(@"Fonts/SegoeUIMono25");
+            var xScorePosition = gameOverText.Position.X;
+            var yScorePosition = gameOverText.Position.Y + gameOverText.Height +20;
+            var scorePosition = new Vector2(xScorePosition, yScorePosition);
+            var scoreText = new Text("Score: "+GameState.scoreDisplay.Score.Value,scoreTextFont, scorePosition, Color.WhiteSmoke);
+
+            // Hight Score text
+           
+            var hightscoreTextFont = content.Load<SpriteFont>(@"Fonts/SegoeUIMono25");
+            var xhightScorePosition = scoreText.Position.X;
+            var yhightScorePosition = scoreText.Position.Y + scoreText.Height + 50;
+            var hightscorePosition = new Vector2(xhightScorePosition, yhightScorePosition);
+            var hightscoreText = new Text("Hight Score: " + GameState.scoreManager.HighScores[0].Value, hightscoreTextFont, hightscorePosition, Color.WhiteSmoke);
+
             //Restart button
             Button restartButton;
             using (var stream = TitleContainer.OpenStream(@"Content/Buttons/RestartButton.png"))
@@ -34,7 +55,7 @@ namespace AvoidMaster.States
                 var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
                 var xPosition = (game.Window.ClientBounds.Width - buttonTexture.Width) / 2;
-                var yPosition = (game.Window.ClientBounds.Height) / 2 - buttonTexture.Height;
+                var yPosition = hightscoreText.Position.Y + buttonTexture.Height;
                 restartButton = new Button(buttonTexture, buttonFont)
                 {
                     Position = new Vector2(xPosition, yPosition),
@@ -82,9 +103,6 @@ namespace AvoidMaster.States
                 };
                 soundButton.Click += SoundButton_Click;
             }
-
-
-
             // Music background button
             using (var stream = TitleContainer.OpenStream(@"Content/Buttons/MusicButton.png"))
             {
@@ -99,14 +117,6 @@ namespace AvoidMaster.States
                 musicButton.Click += MusicButton_Click;
             }
 
-            // Game over text
-            var gameOverFont = content.Load<SpriteFont>(@"Fonts/Pause");
-            var xGameOverPosition = (GameBoundaries.Width - gameOverFont.MeasureString("Game Over").X) / 2;
-            var yGameOverPosition = restartButton.Position.Y - 100;
-            var gameOverPosition = new Vector2(xGameOverPosition, yGameOverPosition);
-            var gameOverText = new Text("Game Over", gameOverFont, gameOverPosition, Color.WhiteSmoke);
-
-
             //Background 
             using (var stream = TitleContainer.OpenStream(@"Content/Backgrounds/GameBackGround.png"))
             {
@@ -114,7 +124,10 @@ namespace AvoidMaster.States
             };
 
             Components = new List<Component>(){
-                restartButton,gameOverText,HomeButton,rankButton,soundButton,musicButton
+                gameOverText,
+                scoreText,hightscoreText,
+                restartButton,HomeButton,rankButton,soundButton,musicButton,
+
             };
         }
 
