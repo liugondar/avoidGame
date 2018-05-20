@@ -20,6 +20,8 @@ namespace AvoidMaster.Sprite
         public float Speed { get; set; }
         protected double timeSinceLastFrame;
         protected int currentFrame;
+
+        protected bool animationPlayedOnce;
         public bool isHaveAnimation;
         private Vector2 location;
 
@@ -99,7 +101,10 @@ namespace AvoidMaster.Sprite
                 timeSinceLastFrame = 0;
             }
             if (currentFrame == TotalFrames)
+            {
                 currentFrame = 0;
+                animationPlayedOnce = true;
+            }
         }
 
         private double SecondsBetweenFrames()

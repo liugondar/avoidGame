@@ -11,11 +11,14 @@ namespace AvoidMaster.Bus
     public class CollisionsManager
     {
         public SoundManager soundManager { get; set; }
-        public CollisionsManager(GameObjects gameObjects, Rectangle gameBoundaries, SoundManager soundManager)
+        public ExplosionManager ExplosionManager { get; }
+
+        public CollisionsManager(GameObjects gameObjects, Rectangle gameBoundaries, SoundManager soundManager, ExplosionManager explosionManager)
         {
             GameObjects = gameObjects;
             GameBoundaries = gameBoundaries;
             this.soundManager = soundManager;
+            ExplosionManager = explosionManager;
         }
 
         public GameObjects GameObjects { get; set; }
@@ -24,13 +27,13 @@ namespace AvoidMaster.Bus
         public void Update(GameTime gameTime)
         {
             if(GameObjects.IsPlaying)
-            CheckCollisions();
+            CheckCollisions(gameTime);
         }
 
-        private void CheckCollisions()
+        private void CheckCollisions(GameTime gameTime)
         {
-            CheckRectangleImpactBlueCar();
-            CheckRectangleImpactRedCar();
+            CheckRectangleImpactBlueCar(gameTime);
+            CheckRectangleImpactRedCar(gameTime);
             CheckCircleImpactBlueCar();
             CheckCircleImpactRedCar();
         }
@@ -69,7 +72,7 @@ namespace AvoidMaster.Bus
             }
         }
 
-        private void CheckRectangleImpactRedCar()
+        private void CheckRectangleImpactRedCar(GameTime gameTime)
         {
             var listsRedRectangle = GameObjects.ObstacleMangager.obstacles.Where(
                obstacle => obstacle.ObstacleType ==(int) ObstacleTypes.RedRectangle).ToList();
@@ -82,14 +85,17 @@ namespace AvoidMaster.Bus
                     GameObjects.IsPlaying = false;
 
                     GameObjects.ScoreManager.Add(GameObjects.ScoreDisplay.Score);
+
                     soundManager.PlayExplosionSound();
+                    ExplosionManager.CreateExposion(item);
+                    GameObjects.ObstacleMangager.obstacles.Remove(item);
                     ScoreManager.Save(GameObjects.ScoreManager);
                 }
 
             }
         }
 
-        private void CheckRectangleImpactBlueCar()
+        private void CheckRectangleImpactBlueCar(GameTime gameTime)
         {
             var listsBlueRectangle = GameObjects.ObstacleMangager.obstacles.Where(
                 obstacle => obstacle.ObstacleType ==(int) ObstacleTypes.BlueRectangle).ToList();
@@ -101,7 +107,10 @@ namespace AvoidMaster.Bus
                     GameObjects.IsLose = true;
                     GameObjects.IsPlaying = false;
                     GameObjects.ScoreManager.Add(GameObjects.ScoreDisplay.Score);
+
                     soundManager.PlayExplosionSound();
+                    ExplosionManager.CreateExposion(item);
+                    GameObjects.ObstacleMangager.obstacles.Remove(item);
                     ScoreManager.Save(GameObjects.ScoreManager);
                 }
             }

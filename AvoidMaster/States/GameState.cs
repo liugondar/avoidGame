@@ -26,6 +26,7 @@ namespace AvoidMaster.States
         public ScoreManager scoreManager;
         public Button pauseGameButton;
         Texture2D backgroundTexture;
+        public ExplosionManager explosionManager;
         public Color colour { get; set; }
 
         public GameState(MainGame game, GraphicsDeviceManager graphics, ContentManager content) : base(game, graphics, content)
@@ -33,7 +34,6 @@ namespace AvoidMaster.States
             colour = Color.White;
             LoadContent();
             //Score init
-
             scoreDisplay = new ScoreDisplay(content.Load<SpriteFont>(@"Fonts/ScoreFont"), GameBoundaries, colour,game.soundManager);
             scoreManager = ScoreManager.Load();
             //Init obstacle
@@ -41,7 +41,7 @@ namespace AvoidMaster.States
             //Init smokes
             carSmokeManager = new CarSmokeManager(GameBoundaries, graphics.GraphicsDevice, colour);
             //Init game objects
-            gameObjects = new GameObjects(blueCar, redCar, obstacleMangager, scoreDisplay, scoreManager, carSmokeManager,game.soundManager);
+            gameObjects = new GameObjects(blueCar, redCar, obstacleMangager, scoreDisplay, scoreManager, carSmokeManager,game.soundManager,explosionManager);
         }
 
         private void LoadContent()
@@ -85,14 +85,23 @@ namespace AvoidMaster.States
                 };
                 pauseGameButton.Click += PauseGameText_Click;
             }
-
+            //Load explosion image
+            Texture2D redExplosionTexture;
+            Texture2D blueExplosionTexture;
+            using (var stream=TitleContainer.OpenStream(@"Content/Image/RedExplosion.png"))
+            {
+                redExplosionTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+            }
+            using (var stream=TitleContainer.OpenStream(@"Content/Image/BlueExplosion.png"))
+            {
+                blueExplosionTexture= Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+            }
+            explosionManager = new ExplosionManager(redExplosionTexture, blueExplosionTexture, this.graphics.GraphicsDevice.Viewport.Bounds);
             // Load component;
             components = new List<Component>(){
                 pauseGameButton
             };
         }
-
-
 
         private void PauseGameText_Click(object sender, EventArgs e)
         {
@@ -114,14 +123,12 @@ namespace AvoidMaster.States
             obstacleMangager.color = colour;
             carSmokeManager.color = colour;
             scoreDisplay.Color = colour;
+            gameObjects.ExplosionManager.colour = colour;
 
 
             background.Draw(gameTime, spriteBatch);
-            blueCar.Draw(gameTime, spriteBatch);
-            redCar.Draw(gameTime, spriteBatch);
-            obstacleMangager.Draw(gameTime, spriteBatch);
-            carSmokeManager.Draw(gameTime, spriteBatch);
-            scoreDisplay.Draw(spriteBatch);
+            gameObjects.Draw(gameTime, spriteBatch);
+            
             foreach (var component in components)
             {
                 component.Draw(gameTime, spriteBatch);
@@ -139,12 +146,9 @@ namespace AvoidMaster.States
                 game.ChangeState(new GameOverState(game, graphics, content, this));
             }
 
-            blueCar.Update(gameTime, gameObjects);
-            redCar.Update(gameTime, gameObjects);
-            obstacleMangager.Update(gameTime, gameObjects);
-            carSmokeManager.Update(gameTime, gameObjects);
+          
             gameObjects.Update(gameTime);
-            scoreDisplay.Update(gameTime, gameObjects);
+           
             foreach (var Component in components)
             {
                 Component.Update(gameTime);
