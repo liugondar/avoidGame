@@ -76,19 +76,7 @@ namespace AvoidMaster
             currentState = new MenuState(this, graphics, Content);
             soundManager = new SoundManager(Content);
             soundManager.PlayBackgroundSound();
-            //this.backgroundSong = Content.Load<Song>("Music/background");
-            //MediaPlayer.Play(backgroundSong);
-            ////  Uncomment the following line will also loop the song
-            ////  MediaPlayer.IsRepeating = true;
-            //MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
         }
-        //void MediaPlayer_MediaStateChanged(object sender, System.
-        //                                  EventArgs e)
-        //{
-        //    // 0.0f is silent, 1.0f is full volume
-        //    MediaPlayer.Volume -= 0.1f;
-        //    MediaPlayer.Play(backgroundSong);
-        //}
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
