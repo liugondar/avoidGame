@@ -14,6 +14,7 @@ namespace AvoidMaster.Bus
         private Song backgroundMusic;
         private SoundEffect explosionEffect;
         private SoundEffect collisionEffect;
+        private SoundEffect missCircleEffect;
         public bool IsBackgroundMusicPlaying { get; set; }
         public bool IsSoundPlaying { get; set; }
 
@@ -22,6 +23,7 @@ namespace AvoidMaster.Bus
             backgroundMusic = content.Load<Song>(@"Sounds\background");
             explosionEffect = content.Load<SoundEffect>(@"Sounds\explosion");
             collisionEffect = content.Load<SoundEffect>(@"Sounds\collision");
+            missCircleEffect = content.Load<SoundEffect>(@"Sounds\MissCircle");
             IsSoundPlaying = true;
         }
 
@@ -47,7 +49,10 @@ namespace AvoidMaster.Bus
         {
             if (IsSoundPlaying) explosionEffect.Play(volume: 0.25f, pitch: 0.0f, pan: 0.0f);
         }
-
+        public void PlayMissCircle()
+        {
+            if (IsSoundPlaying) missCircleEffect.Play();
+        }
         public void ChangeStateSound()
         {
             IsSoundPlaying = !IsSoundPlaying;

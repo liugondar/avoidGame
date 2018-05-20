@@ -85,7 +85,6 @@ namespace AvoidMaster.Bus
                     soundManager.PlayExplosionSound();
                     ScoreManager.Save(GameObjects.ScoreManager);
                 }
-                //TODO: Minus score score & make anitmation collision
 
             }
         }
@@ -99,7 +98,6 @@ namespace AvoidMaster.Bus
                 bool isIntersects = item.BoundingBox.Intersects(GameObjects.BlueCar.BoundingBox);
                 if (isIntersects)
                 {
-                    //TODO: Minus score and make animation collision
                     GameObjects.IsLose = true;
                     GameObjects.IsPlaying = false;
                     GameObjects.ScoreManager.Add(GameObjects.ScoreDisplay.Score);

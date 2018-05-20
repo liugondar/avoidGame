@@ -31,3 +31,9 @@
 /processorParam:Quality=Best
 /build:Sounds/background.mp3
 
+#begin Sounds/MissCircle.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/MissCircle.wav
+

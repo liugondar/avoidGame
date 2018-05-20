@@ -44,7 +44,6 @@ namespace AvoidMaster
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
 
             base.Initialize();
             this.IsMouseVisible = true;
@@ -123,7 +122,6 @@ namespace AvoidMaster
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
             currentState.Draw(gameTime, spriteBatch);
             spriteBatch.End();

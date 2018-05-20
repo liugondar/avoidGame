@@ -12,12 +12,14 @@ namespace AvoidMaster.Bus
 {
     public class ScoreDisplay
     {
-        public ScoreDisplay(SpriteFont font, Rectangle gameBoundaries, Color color)
+        public SoundManager soundManager { get; set; }
+        public ScoreDisplay(SpriteFont font, Rectangle gameBoundaries, Color color, SoundManager soundManager)
         {
             Font = font;
             GameBoundaries = gameBoundaries;
             Color = color;
             Score = new Score();
+            this.soundManager = soundManager;
         }
 
         public SpriteFont Font { get; set; }
@@ -105,7 +107,8 @@ namespace AvoidMaster.Bus
                 if (item.Position.Y+item.Height > GameBoundaries.Height)
                 {
                     item.isHaveAnimation = true;
-                    //TODO: add action when miss circle
+
+                    soundManager.PlayMissCircle(); 
                     gameObjects.IsLose = true;
                     gameObjects.IsPlaying = false;
                     gameObjects.ScoreManager.Add(gameObjects.ScoreDisplay.Score);
@@ -125,7 +128,7 @@ namespace AvoidMaster.Bus
                 if (item.Position.Y+item.Height > GameBoundaries.Height)
                 {
                     item.isHaveAnimation = true;
-                    //TODO: add action when miss circle
+                    soundManager.PlayMissCircle(); 
                     gameObjects.IsLose = true;
                     gameObjects.IsPlaying = false;
 

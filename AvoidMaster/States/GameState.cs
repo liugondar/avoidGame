@@ -34,7 +34,7 @@ namespace AvoidMaster.States
             LoadContent();
             //Score init
 
-            scoreDisplay = new ScoreDisplay(content.Load<SpriteFont>(@"Fonts/ScoreFont"), GameBoundaries, colour);
+            scoreDisplay = new ScoreDisplay(content.Load<SpriteFont>(@"Fonts/ScoreFont"), GameBoundaries, colour,game.soundManager);
             scoreManager = ScoreManager.Load();
             //Init obstacle
             obstacleMangager = new ObstacleMangager(GameBoundaries, graphics.GraphicsDevice, colour, 7.5f);
