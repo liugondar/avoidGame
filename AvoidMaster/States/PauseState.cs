@@ -7,6 +7,7 @@ using AvoidMaster.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace AvoidMaster.States
 {
@@ -164,6 +165,11 @@ namespace AvoidMaster.States
 
         private void resumeButton_Click(object sender, EventArgs e)
         {
+            ChangeToGameState();
+        }
+
+        private void ChangeToGameState()
+        {
             gameState.gameObjects.IsPause = false;
             gameState.gameObjects.IsPlaying = true;
 
@@ -181,6 +187,7 @@ namespace AvoidMaster.States
         }
         public override void Update(GameTime gameTime)
         {
+             if (Keyboard.GetState().IsKeyDown(Keys.Space)) ChangeToGameState();
             foreach (var item in components)
             {
                 item.Update(gameTime);

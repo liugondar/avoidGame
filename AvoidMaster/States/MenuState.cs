@@ -20,6 +20,7 @@ namespace AvoidMaster.States
         private Button quitGameButton;
         private Button musicButton;
         private Button soundButton;
+        private Button helpButton;
 
         public MenuState(MainGame game, GraphicsDeviceManager graphics, ContentManager content) : base(game, graphics, content)
         {
@@ -41,7 +42,7 @@ namespace AvoidMaster.States
             {
                 var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
-                var xPosition = 500 / 2 - buttonTexture.Width / 2;
+                var xPosition = 500 / 2 - buttonTexture.Width-10 ;
                 var yPosition = 889 / 2 - buttonTexture.Height * 2 + 100;
                 newGameButton = new Button(buttonTexture, buttonFont)
                 {
@@ -50,21 +51,33 @@ namespace AvoidMaster.States
                 newGameButton.Click += NewgameButton_Click;
             }
 
+            //Help Button
+            using (var stream = TitleContainer.OpenStream(@"Content/Buttons/HelpButton.png"))
+            {
+                var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
+                var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
+                var xPosition = newGameButton.Position.X+10+newGameButton.Width;
+                var yPosition = newGameButton.Position.Y;
+                helpButton = new Button(buttonTexture, buttonFont)
+                {
+                    Position = new Vector2(xPosition, yPosition),
+                };
+                helpButton.Click += HelpButton_Click;
+            }
+
             // Sounds  button
             using (var stream = TitleContainer.OpenStream(@"Content/Buttons/SoundButton.png"))
             {
                 var buttonFont = content.Load<SpriteFont>(@"Fonts/Font");
                 var buttonTexture = Texture2D.FromStream(this.graphics.GraphicsDevice, stream);
-                var xPosition = newGameButton.Position.X + newGameButton.Width / 2;
-                var yPosition = newGameButton.Position.Y + 50 + newGameButton.Width;
+                var xPosition = 500 / 2 - buttonTexture.Width/2+50 ;
+                var yPosition = newGameButton.Position.Y + 50 + newGameButton.Height;
                 soundButton = new Button(buttonTexture, buttonFont)
                 {
                     Position = new Vector2(xPosition, yPosition),
                 };
                 soundButton.Click += SoundButton_Click;
             }
-
-
 
             // Music background button
             using (var stream = TitleContainer.OpenStream(@"Content/Buttons/MusicButton.png"))
@@ -92,7 +105,7 @@ namespace AvoidMaster.States
                 };
                 hightScoreButton.Click += HightScoreButton_Click;
             }
-
+          
             //Quit Button
             using (var stream = TitleContainer.OpenStream(@"Content/Buttons/QuitButton.png"))
             {
@@ -122,8 +135,13 @@ namespace AvoidMaster.States
             {
                 newGameButton,
                 soundButton,musicButton,
-                hightScoreButton,quitGameButton
+                hightScoreButton,quitGameButton,helpButton
             };
+        }
+
+        private void HelpButton_Click(object sender, EventArgs e)
+        {
+            game.ChangeState(new HelpState(game, graphics, content));
         }
 
         private void SoundButton_Click(object sender, EventArgs e)

@@ -38,6 +38,12 @@ namespace AvoidMaster.Components
             PenColor = Color.Black;
         }
 
+        public Button(Texture2D texture)
+        {
+            this.texture = texture;
+            PenColor = Color.Black;
+        }
+
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var _color = Color.White;

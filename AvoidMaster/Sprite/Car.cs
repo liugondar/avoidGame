@@ -98,13 +98,13 @@ namespace AvoidMaster.Sprite
                 }
                 else
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.Left))
+                    if (Keyboard.GetState().IsKeyDown(Keys.J))
                     {
                         Velocity = new Vector2(-Speed, 0);
                         IsMovingLeft = true;
                     }
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                    if (Keyboard.GetState().IsKeyDown(Keys.L))
                     {
                         Velocity = new Vector2(Speed, 0);
                         IsMovingRight = true;

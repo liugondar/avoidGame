@@ -5,6 +5,7 @@ using AvoidMaster.Sprite;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,6 +106,11 @@ namespace AvoidMaster.States
 
         private void PauseGameText_Click(object sender, EventArgs e)
         {
+            ChangeToPauseState();
+        }
+
+        private void ChangeToPauseState()
+        {
             gameObjects.IsPause = true;
             game.ChangeState(new PauseState(game, graphics, content, this));
         }
@@ -141,6 +147,7 @@ namespace AvoidMaster.States
 
         public override void Update(GameTime gameTime)
         {
+            
             if (gameObjects.IsLose)
             {
                 game.ChangeState(new GameOverState(game, graphics, content, this));
